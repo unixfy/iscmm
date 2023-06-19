@@ -85,9 +85,9 @@
     @import 'leaflet/dist/leaflet.css';
 </style>
 
-<div class="h-screen w-screen flex flex-col lg:flex-row">
+<div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
     <!--    Page content -->
-    <div class="p-4 lg:p-8 lg:w-1/3">
+    <div class="p-4 lg:p-8 lg:w-1/3 h-full overflow-auto">
         <!--        Show loading if loading -->
         {#await Promise.all([data.streamed.exits, data.streamed.rail])}
             <div class="alert alert-info mb-4">
