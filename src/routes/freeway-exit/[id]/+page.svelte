@@ -5,7 +5,7 @@
 <h1>Freeway Exit Detail</h1>
 
 {#await data.streamed.exit}
-    <div class="bg-gray-300 animate-pulse h-56 rounded-lg"></div>
+    <div class="bg-gray-300 animate-pulse h-56 rounded-lg my-8"></div>
 {:then exit}
     <div class="sign-cluster">
         <div class="sign sign-green">

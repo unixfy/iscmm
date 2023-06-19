@@ -28,6 +28,9 @@
             }).addTo(map);
 
             let exits = await data.streamed.exits
+            let rail = await data.streamed.rail
+
+            console.log(rail)
 
             // add each exit to the map
             exits.forEach(exit => {
@@ -54,12 +57,29 @@
                 // Add a "learn more" link to the popup
                 popupString += `<a href="/freeway-exit/${exit.id}" class="block">Learn more</a>`
 
-                const marker = leaflet.circleMarker([exit.lat, exit.lon])
+                leaflet.circleMarker([exit.lat, exit.lon], {
+                    color: "#006b54",
+                    radius: 10,
+                })
                     .addTo(map)
                     .bindPopup(popupString, {
                         className: 'exit-popup'
                     })
                     .bindTooltip(tooltipString, {
+                        direction: 'right',
+                        className: 'exit-tooltip'
+                    });
+            })
+
+            // add each rail station to the map
+            rail.forEach(rail => {
+                let popupString = `${rail.tags.name} - ${rail.tags.network}`
+                leaflet.circleMarker([rail.lat, rail.lon], {
+                    color: "#003f87",
+                    radius: 10,
+                })
+                    .addTo(map)
+                    .bindTooltip(popupString, {
                         direction: 'right',
                         className: 'exit-tooltip'
                     });
@@ -83,7 +103,7 @@
     <!--    Page content -->
     <div class="p-4 lg:p-8 lg:w-1/3">
         <!--        Show loading if loading -->
-        {#await data.streamed.exits}
+        {#await Promise.all([data.streamed.exits, data.streamed.rail])}
             <div class="alert alert-info mb-4">
                 <span class="loading loading-dots loading-md"></span>
                 <p>
