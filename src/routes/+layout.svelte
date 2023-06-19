@@ -29,10 +29,6 @@
             }).addTo(map);
 
             let exits = await data.streamed.exits
-            let rail = await data.streamed.rail
-
-            console.log(rail)
-
             // add each exit to the map
             exits.forEach(exit => {
                 // generate the  tooltip strings
@@ -57,6 +53,7 @@
                     });
             })
 
+            let rail = await data.streamed.rail
             // add each rail station to the map
             rail.forEach(rail => {
                 let popupString = `${rail.tags.name} - ${rail.tags.network}`
@@ -65,6 +62,9 @@
                     radius: 10,
                 })
                     .addTo(map)
+                    .on('click', function () {
+                        goto(`/transit-station/${rail.id}`)
+                    })
                     .bindTooltip(popupString, {
                         direction: 'right',
                         className: 'exit-tooltip'
