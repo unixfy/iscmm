@@ -17,3 +17,7 @@ h2 {
 .exit-popup {
     @apply font-sans text-lg
 }
+
+a {
+    @apply text-blue-500 hover:text-blue-700
+}
