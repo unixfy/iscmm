@@ -24,7 +24,7 @@
             // add each exit to the map
             exits.forEach(exit => {
                 // generate the popup and tooltip strings
-                let popupString = `This is <b>Exit ${exit.tags.ref}`
+                let popupString = `This is <b>Exit ${exit.tags.ref}</b>`
                 let tooltipString = `Exit ${exit.tags.ref}`
 
                 // if destination is defined, add the destination to the popup
