@@ -10,6 +10,7 @@
 
     import {onMount, onDestroy} from 'svelte';
     import {browser} from '$app/environment';
+    import {goto} from "$app/navigation";
 
     export let data;
 
@@ -34,36 +35,21 @@
 
             // add each exit to the map
             exits.forEach(exit => {
-                // generate the popup and tooltip strings
-                let popupString = `This is <b>Exit ${exit.tags.ref}</b>`
+                // generate the  tooltip strings
                 let tooltipString = `Exit ${exit.tags.ref}`
 
-                // if destination is defined, add the destination to the popup
+                // if destination is defined, add the destination to the tooltip
                 if (exit.tags.destination) {
-                    popupString += ` for ${exit.tags.destination}`
                     tooltipString += ` - ${exit.tags.destination}`
                 }
-
-// if freeway number is defined, add it to the popup
-                if (exit.tags.fwy_number) {
-                    popupString += ` on ${exit.tags.fwy_number}`
-                }
-
-                //if freeway name is defined, add it to the popup
-                if (exit.tags.fwy_name) {
-                    popupString += ` (${exit.tags.fwy_name})`
-                }
-
-                // Add a "learn more" link to the popup
-                popupString += `<a href="/freeway-exit/${exit.id}" class="block">Learn more</a>`
 
                 leaflet.circleMarker([exit.lat, exit.lon], {
                     color: "#006b54",
                     radius: 10,
                 })
                     .addTo(map)
-                    .bindPopup(popupString, {
-                        className: 'exit-popup'
+                    .on('click', function () {
+                        goto(`/freeway-exit/${exit.id}`)
                     })
                     .bindTooltip(tooltipString, {
                         direction: 'right',
