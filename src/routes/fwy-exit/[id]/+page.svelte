@@ -8,7 +8,7 @@
 {#await data.streamed.exit}
     <div class="bg-gray-300 animate-pulse h-56 rounded-lg"></div>
 {:then exit}
-    <div class="bg-green-800 rounded-xl border-black border-8 p-4 text-white">
+    <div class="sign sign-green">
         <!--        Show freeway number and/or name if available -->
         {#if exit[0].tags.fwy_number || exit[0].tags.fwy_name}
             <div class="flex space-x-1">

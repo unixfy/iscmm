@@ -21,3 +21,15 @@ h2 {
 a {
     @apply text-blue-500 hover:text-blue-700
 }
+
+.sign {
+    @apply rounded-xl border-black border-8 p-4 text-white  font-display
+}
+
+.sign-green {
+    @apply bg-green-800
+}
+
+.sign-blue {
+    @apply bg-blue-500
+}
