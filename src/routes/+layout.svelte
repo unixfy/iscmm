@@ -102,8 +102,7 @@
         </div>
         <!--        Footer -->
         <hr class="my-4">
-        <p class="italic">Copyright &copy; {new Date().getFullYear()} Unixfy. We run on SvelteKit and
-            OpenStreetMaps.</p>
+        <p class="italic">Copyright &copy; {new Date().getFullYear()} Unixfy. Proudly powered by SvelteKit.</p>
     </div>
     <!--    Map -->
     <div class="lg:w-2/3 h-full w-full">
