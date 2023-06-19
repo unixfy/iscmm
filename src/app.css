@@ -9,3 +9,11 @@ h1 {
 h2 {
     @apply text-xl md:text-2xl lg:text-3xl
 }
+
+.exit-tooltip {
+    @apply font-sans text-lg
+}
+
+.exit-popup {
+    @apply font-sans text-lg
+}
