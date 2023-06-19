@@ -25,6 +25,7 @@
                     {#if exit[0].tags["destination:ref"]}
                         <p class="text-sm">{exit[0].tags["destination:ref"]}</p>
                     {/if}
+                </p>
             </div>
         </div>
 

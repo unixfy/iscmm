@@ -82,6 +82,48 @@ export default async function (fetch, overpassQuery, nodeType) {
 
             }
         }
+    } else if (nodeType === 'rail_stations') {
+        nodes = data.elements.filter(element => element.type === 'node').filter(node => node.tags && node.tags.railway === "station")
+
+        // Get an array of the routes
+        // Node that we need to filter for relations with a tag "type" = "route' on our end due to bugginess in Overpass API
+        const routes = data.elements.filter(element => element.type === 'relation').filter(relation => relation.tags && relation.tags.type === "route")
+
+        // Stores cleaned and deduped routes
+        const routesCleaned = []
+
+        // Iterate through routes and dedupe them on the "ref" tag while adding direction info
+
+        // Get an array of the unique routes by their "ref" tags, while keeping certain common tags
+        const uniqueRoutesByRef = [...new Set(routes.map(relation => JSON.stringify({
+            ref: relation.tags.ref,
+            colour: relation.tags.colour,
+            network: relation.tags.network,
+            operator: relation.tags.operator,
+            wikipedia: relation.tags.wikipedia,
+        })))].map(string => JSON.parse(string))
+
+        // Then, iterate through the unique "ref" tags and find the routes that have that "ref" tag
+        // We will find all the relations that have the same "ref" tag and add their "to" tags to an array
+        // We will then add that array to the "ref" tag
+        for (const uniqueRoute of uniqueRoutesByRef) {
+            const routesWithSameRef = routes.filter(relation => relation.tags.ref === uniqueRoute.ref)
+            const toTags = routesWithSameRef.map(relation => relation.tags.to)
+            const route = {
+                ...uniqueRoute,
+                to: toTags,
+            }
+            routesCleaned.push(route)
+        }
+
+        // Iterate through each node and add the tags from all the relations returned in the query
+        // We don't check that relations contain the "node" because it's not guaranteed in this case
+        for (const node of nodes) {
+            node.routes_served = routesCleaned
+        }
+
+    } else if (nodeType === 'rail_stops') {
+        nodes = data.elements.filter(element => element.type === 'node').filter(node => node.tags && node.tags.railway === "stop")
     } else {
         nodes = data.elements.filter(element => element.type === 'node')
     }

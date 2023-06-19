@@ -34,6 +34,10 @@ p > a {
     @apply bg-blue-800
 }
 
+.sign-black {
+    @apply bg-black
+}
+
 .sign-cluster {
     @apply flex flex-col space-y-4 my-8
 }
