@@ -52,7 +52,7 @@
                 }
 
                 // Add a "learn more" link to the popup
-                popupString += `<a href="/fwy-exit/${exit.id}" class="block">Learn more</a>`
+                popupString += `<a href="/freeway-exit/${exit.id}" class="block">Learn more</a>`
 
                 const marker = leaflet.circleMarker([exit.lat, exit.lon])
                     .addTo(map)
