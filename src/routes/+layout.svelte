@@ -13,6 +13,7 @@
     import {goto} from "$app/navigation";
     import ErrorAlert from "$lib/ErrorAlert.svelte";
     import LoadingAlert from "$lib/LoadingAlert.svelte";
+    import {page} from "$app/stores";
 
     export let data;
 
@@ -86,6 +87,11 @@
 <style>
     @import 'leaflet/dist/leaflet.css';
 </style>
+
+<svelte:head>
+    <title>{(($page.error) ? "Error" : $page.data.title || "Welcome")} | Interactive SoCal Mobility Map</title>
+</svelte:head>
+
 
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
     <!--    Page content -->
