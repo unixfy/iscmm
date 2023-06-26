@@ -97,6 +97,13 @@
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
     <!--    Page content -->
     <div class="p-4 lg:p-8 lg:w-1/3 h-full overflow-auto">
+        <!--    Noscript warning -->
+        <noscript>
+            <div class="font-display font-bold text-white p-8 text-3xl mb-4" style="background-color:red;">
+                It looks like you have JavaScript disabled. This site will NOT work without JavaScript enabled!
+            </div>
+        </noscript>
+
         <!--        Show loading if loading -->
         {#await Promise.all([data.streamed.exits, data.streamed.rail])}
             <LoadingAlert/>
