@@ -40,18 +40,27 @@
 
     <hr>
 
-    <h2>Traffic Alerts</h2>
-
-    {#await data.streamed.go511Data}
-        <LoadingAlert/>
-    {:then go511Items}
-        {#each go511Items as go511Item}
-            <Go511ItemCard {go511Item}/>
-        {/each}
-        <p class="text-sm italic">
-            {go511Items.length} items retrieved. Data is from SoCal 511.
-        </p>
-    {:catch error}
-        <p>{error}</p>
-    {/await}
+<!--    Collapsible area for traffic alerts - open by default -->
+    <div class="collapse rounded-none">
+        <input type="checkbox" checked class="min-h-0"/>
+        <div class="collapse-title p-0 min-h-0">
+            <h2>Traffic Alerts</h2>
+        </div>
+        <div class="collapse-content p-0">
+            {#await data.streamed.go511Data}
+                <LoadingAlert/>
+            {:then go511Items}
+                <div class="flex flex-col space-y-4 pt-2">
+                    {#each go511Items as go511Item}
+                        <Go511ItemCard {go511Item}/>
+                    {/each}
+                    <p class="text-sm italic">
+                        {go511Items.length} items retrieved. Data is from SoCal 511.
+                    </p>
+                </div>
+            {:catch error}
+                <p>{error}</p>
+            {/await}
+        </div>
+    </div>
 </div>
