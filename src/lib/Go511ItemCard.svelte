@@ -1,27 +1,26 @@
 <script>
+    import Icon from "@iconify/svelte";
+
     export let go511Item;
 </script>
 
 <div class="card bg-base-200 shadow-lg">
     <div class="card-body p-4">
         <div class="card-title">
+            <!--            Icon slot -->
             <div>
-                <!--    Badges -->
-                {#if go511Item.type === "Alert" || go511Item.type === "Incident"}
-                    <div class="badge badge-warning">{go511Item.type}</div>
+                {#if go511Item.type === "Alert"}
+                    <Icon class="text-warning" height="1.5em" icon="carbon:warning-filled"/>
+                {:else if go511Item.type === "Incident"}
+                    <Icon class="text-warning" height="1.5em" icon="carbon:traffic-flow-incident"/>
                 {:else if go511Item.type === "Road Work"}
-                    <div class="badge badge-info">{go511Item.type}</div>
+                    <Icon class="text-info" height="1.5em" icon="carbon:construction"/>
                 {:else if go511Item.type === "Closure"}
-                    <div class="badge badge-error">{go511Item.type}</div>
+                    <Icon class="text-error" height="1.5em" icon="carbon:close-filled"/>
                 {:else}
-                    <div class="badge badge-neutral">{go511Item.type}</div>
                 {/if}
-
-                <!--Emergency indicator-->
-                {#if go511Item.emergency}
-                    <div class="badge badge-error">Emergency</div>
-                {/if}
-
+            </div>
+            <div>
                 <p class="inline">
                     <!--                    Freeway -->
                     {#if go511Item.freeway}
@@ -50,6 +49,25 @@
         </div>
 
 
+        <div>
+            <!--    Badges -->
+            {#if go511Item.type === "Alert" || go511Item.type === "Incident"}
+                <div class="badge badge-warning">
+                    {go511Item.type}</div>
+            {:else if go511Item.type === "Road Work"}
+                <div class="badge badge-info">{go511Item.type}</div>
+            {:else if go511Item.type === "Closure"}
+                <div class="badge badge-error">{go511Item.type}</div>
+            {:else}
+                <div class="badge badge-neutral">{go511Item.type}</div>
+            {/if}
+
+            <!--Emergency indicator-->
+            {#if go511Item.emergency}
+                <div class="badge badge-error">Emergency</div>
+            {/if}
+        </div>
+
         <!--        Incident start date -->
         {#if go511Item.start}
             <p class="text-sm italic">
@@ -64,12 +82,14 @@
 
         <!--        Incident description -->
         <p>
-            <b>{go511Item.description}</b>
+            <Icon class="inline" height="1.25em" icon="carbon:text-align-center"/>
+            <b>Description: </b> {go511Item.description}
         </p>
 
         <!--        Location -->
         {#if go511Item.location}
             <p>
+                <Icon class="inline" height="1.25em" icon="carbon:location-filled"/>
                 <b>Location:</b> {go511Item.location}
             </p>
         {/if}
@@ -77,13 +97,16 @@
         <!--Lanes affected-->
         {#if go511Item.lanes}
             <p>
+                <Icon class="inline" height="1.25em" icon="carbon:traffic-flow"/>
                 <b>Lane(s):</b> {go511Item.lanes}
             </p>
         {/if}
 
         <!--More info link if available-->
         {#if go511Item.url}
-            <a href="{go511Item.url}" target="_blank" class="btn btn-neutral btn-sm">More info</a>
+            <a href="{go511Item.url}" target="_blank" class="btn btn-neutral btn-sm">More info
+                <Icon icon="carbon:arrow-up-right"/>
+            </a>
         {/if}
     </div>
 </div>

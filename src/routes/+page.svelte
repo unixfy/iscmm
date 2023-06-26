@@ -1,6 +1,7 @@
 <script>
     import Go511ItemCard from "$lib/Go511ItemCard.svelte";
     import LoadingAlert from "$lib/LoadingAlert.svelte";
+    import Icon from "@iconify/svelte";
 
     export let data;
 </script>
@@ -44,7 +45,7 @@
     <div class="collapse collapse-arrow rounded-none">
         <input type="checkbox" checked class="min-h-0"/>
         <div class="collapse-title px-0 min-h-0">
-            <h2>Traffic Alerts</h2>
+            <h2><Icon class="inline" icon="carbon:traffic-cone" /> Traffic Alerts</h2>
         </div>
         <div class="collapse-content p-0">
             {#await data.streamed.go511Data}
