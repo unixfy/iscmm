@@ -23,7 +23,7 @@ p > a {
 }
 
 .sign {
-    @apply rounded-xl border-black border-8 p-4 text-white  font-display
+    @apply rounded-xl border-black border-8 p-4 text-white font-display
 }
 
 .sign-green {

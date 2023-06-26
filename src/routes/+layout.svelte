@@ -4,6 +4,7 @@
     // fonts
     import "@fontsource/overpass/400.css";
     import "@fontsource/overpass/700.css";
+    import "@fontsource/overpass/800.css";
 
     import "@fontsource/ibm-plex-sans/400.css";
     import "@fontsource/ibm-plex-sans/700.css";

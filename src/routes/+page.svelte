@@ -5,8 +5,16 @@
 
     export let data;
 </script>
-<h1>This is <span class="font-bold text-green-800">ISCMM</span></h1>
-<h2>Interactive SoCal Mobility Map</h2>
+
+<div class="sign sign-green">
+    <div>
+        <h1 class="flex font-extrabold">
+            ISCMM
+            <Icon class="inline ml-auto" icon="el:arrow-right"/>
+        </h1>
+        <p class="uppercase text-md">Interactive SoCal Mobility Map</p>
+    </div>
+</div>
 
 <hr class="my-4">
 
@@ -41,11 +49,14 @@
 
     <hr>
 
-<!--    Collapsible area for traffic alerts - open by default -->
+    <!--    Collapsible area for traffic alerts - open by default -->
     <div class="collapse collapse-arrow rounded-none">
         <input type="checkbox" checked class="min-h-0"/>
         <div class="collapse-title px-0 min-h-0">
-            <h2><Icon class="inline" icon="carbon:traffic-cone" /> Traffic Alerts</h2>
+            <h2>
+                <Icon class="inline" icon="carbon:traffic-cone"/>
+                Traffic Alerts
+            </h2>
         </div>
         <div class="collapse-content p-0">
             {#await data.streamed.go511Data}
