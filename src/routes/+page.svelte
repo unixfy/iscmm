@@ -41,16 +41,16 @@
     <hr>
 
 <!--    Collapsible area for traffic alerts - open by default -->
-    <div class="collapse rounded-none">
+    <div class="collapse collapse-arrow rounded-none">
         <input type="checkbox" checked class="min-h-0"/>
-        <div class="collapse-title p-0 min-h-0">
+        <div class="collapse-title px-0 min-h-0">
             <h2>Traffic Alerts</h2>
         </div>
         <div class="collapse-content p-0">
             {#await data.streamed.go511Data}
                 <LoadingAlert/>
             {:then go511Items}
-                <div class="flex flex-col space-y-4 pt-2">
+                <div class="flex flex-col space-y-4">
                     {#each go511Items as go511Item}
                         <Go511ItemCard {go511Item}/>
                     {/each}
