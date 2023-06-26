@@ -1,3 +1,5 @@
+import {format, parseISO, parse, formatDistanceToNow} from "date-fns";
+
 export default async function (fetch) {
     // Grab all the data from the Go511 API
     const alerts = await fetch("https://commonwebsite.go511.com/api/Alert/GetAll")
@@ -25,9 +27,13 @@ export default async function (fetch) {
             longitude: alert.Longitude,
             emergency: alert.IsEmergency || alert.IsMajorEvent,
             description: alert.Text,
-            start: new Date(alert.StartDate),
-            end: new Date(alert.EndDate),
+            end: format(parseISO(alert.EndDate), "Pp"),
             url: alert.MoreInformationUrl
+        }
+
+        if (alert.StartDate) {
+            returnObj.start = format(parseISO(alert.StartDate), "Pp")
+            returnObj.startDistanceToNow = formatDistanceToNow(parseISO(alert.StartDate))
         }
 
         if (alert.County.length === 1) {
@@ -50,7 +56,8 @@ export default async function (fetch) {
             longitude: incident.Longitude,
             emergency: (incident.Description.toUpperCase().search("SIGALERT") >= 0),
             description: incident.Description,
-            start: new Date(incident.StartDate),
+            start: format(parse(incident.StartDate, "MMM do, y hh:mm a", new Date()), "Pp"),
+            startDistanceToNow: formatDistanceToNow(parse(incident.StartDate, "MMM do, y hh:mm a", new Date())),
             freeway: incident.RoadwayName,
             county: incident.CountyName,
             direction: incident.DirectionOfTravel,
@@ -58,7 +65,7 @@ export default async function (fetch) {
         }
 
         if (incident.PlannedEndDate) {
-            returnObj.end = new Date(incident.PlannedEndDate)
+            returnObj.end = format(parse(incident.PlannedEndDate, "MMM do, y hh:mm a", new Date()), "Pp")
         }
 
         return returnObj
@@ -76,7 +83,8 @@ export default async function (fetch) {
             emergency: false,
             description: roadwork.Description,
             direction: roadwork.DirectionOfTravel,
-            start: new Date(roadwork.StartDate),
+            start: format(parseISO(roadwork.StartDate), "Pp"),
+            startDistanceToNow: formatDistanceToNow(parseISO(roadwork.StartDate)),
             freeway: roadwork.RoadwayName,
             county: roadwork.CountyName,
             location: roadwork.Location.replace(/`/g, ""),
@@ -88,7 +96,7 @@ export default async function (fetch) {
         }
 
         if (roadwork.PlannedEndDate) {
-            returnObj.end = new Date(roadwork.PlannedEndDate)
+            returnObj.end = format(parseISO(roadwork.PlannedEndDate), "Pp")
         }
 
         return returnObj
@@ -106,14 +114,15 @@ export default async function (fetch) {
             emergency: false,
             description: roadcondition.Description,
             direction: roadcondition.DirectionOfTravel,
-            start: new Date(roadcondition.StartDate),
+            start: format(parseISO(roadcondition.StartDate), "Pp"),
+            startDistanceToNow: formatDistanceToNow(parseISO(roadcondition.StartDate)),
             freeway: roadcondition.RoadwayName,
             location: roadcondition.Location.replace(/`/g, ""),
             lanes: roadcondition.LanesAffected.toUpperCase() !== "NOT AVAILABLE" ? roadcondition.LanesAffected : ""
         }
 
         if (roadcondition.PlannedEndDate) {
-            returnObj.end = new Date(roadcondition.PlannedEndDate)
+            returnObj.end = format(parseISO(roadcondition.PlannedEndDate), "Pp")
         }
 
         return returnObj
