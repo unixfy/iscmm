@@ -15,13 +15,25 @@
     import ErrorAlert from "$lib/ErrorAlert.svelte";
     import LoadingAlert from "$lib/LoadingAlert.svelte";
     import {page} from "$app/stores";
+    import Icon from "@iconify/svelte";
 
     export let data;
 
     let mapElement;
     let map;
 
+    // Measures screen width
+    let innerWidth;
+
+    let contentPaneExpanded;
+
     onMount(async () => {
+        if (innerWidth > 768) {
+            contentPaneExpanded = true
+        } else {
+            contentPaneExpanded = false
+        }
+
         if (browser) {
             const leaflet = await import('leaflet');
 
@@ -93,52 +105,72 @@
     <title>{(($page.error) ? "Error" : $page.data.title || "Welcome")} | Interactive SoCal Mobility Map</title>
 </svelte:head>
 
+<svelte:window bind:innerWidth={innerWidth}/>
 
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
-    <!--    Page content -->
-    <div class="p-2 lg:p-6 lg:w-1/3 h-full overflow-auto">
-        <!--    Noscript warning -->
-        <noscript>
-            <div class="font-display font-bold text-white p-8 text-3xl mb-4" style="background-color:red;">
-                It looks like you have JavaScript disabled. This site will NOT work without JavaScript enabled!
+    {#if contentPaneExpanded}
+        <!--    Page content -->
+        <div class="p-2 lg:p-6 lg:w-1/3 h-full overflow-auto absolute z-10 bg-white">
+            <!--    Noscript warning -->
+            <noscript>
+                <div class="font-display font-bold text-white p-8 text-3xl mb-4" style="background-color:red;">
+                    It looks like you have JavaScript disabled. This site will NOT work without JavaScript enabled!
+                </div>
+            </noscript>
+
+            <!--        Show loading if loading -->
+            {#await Promise.all([data.streamed.exits, data.streamed.rail])}
+                <LoadingAlert/>
+            {:catch error}
+                <ErrorAlert {error}/>
+            {/await}
+
+            <!--    Slot -->
+            <div>
+                <button class="btn btn-neutral mb-4 btn-sm btn-block" on:click={() => contentPaneExpanded = false}>
+                    <Icon icon="carbon:arrow-left"/>
+                    Hide content
+                </button>
+                <slot/>
             </div>
-        </noscript>
-
-        <!--        Show loading if loading -->
-        {#await Promise.all([data.streamed.exits, data.streamed.rail])}
-            <LoadingAlert/>
-        {:catch error}
-            <ErrorAlert {error}/>
-        {/await}
-
-        <!--    Slot -->
-        <div>
-            <slot/>
+            <!--        Footer -->
+            <hr class="my-4">
+            <div class="flex flex-col space-y-2">
+                <p>
+                    Copyright &copy; {new Date().getFullYear()} <a href="https://alexwang.net" target="_blank"
+                                                                   rel="noreferrer">Alex
+                    Wang</a>. Proudly powered by SvelteKit.
+                    Inspired by <a href="https://ibahm.org" target="_blank" rel="noreferrer">IBAHM</a> (Interactive Bay
+                    Area
+                    Highway
+                    Map).
+                </p>
+                <p class="text-xs">
+                    Disclaimer: ISCMM, Unixfy, and Alex Wang are not affiliated with OpenStreetMap, Caltrans, Los
+                    Angeles
+                    County Metropolitan
+                    Transportation Agency (LACMTA; Metro), San Bernardino County Transportation Agency (SBCTA;
+                    Omnitrans),
+                    or
+                    other
+                    organizations responsible for mobility in Southern California.
+                </p>
+            </div>
         </div>
-        <!--        Footer -->
-        <hr class="my-4">
-        <div class="flex flex-col space-y-2">
+    {:else}
+        <!--Content pane hidden message-->
+        <div class="p-4 rounded-xl bg-white absolute mx-16 z-10 my-4 w-56">
             <p>
-                Copyright &copy; {new Date().getFullYear()} <a href="https://alexwang.net" target="_blank"
-                                                               rel="noreferrer">Alex
-                Wang</a>. Proudly powered by SvelteKit.
-                Inspired by <a href="https://ibahm.org" target="_blank" rel="noreferrer">IBAHM</a> (Interactive Bay Area
-                Highway
-                Map).
+                You're viewing page:
+                <b>{$page.data.title}</b>
             </p>
-            <p class="text-xs">
-                Disclaimer: ISCMM, Unixfy, and Alex Wang are not affiliated with OpenStreetMap, Caltrans, Los Angeles
-                County Metropolitan
-                Transportation Agency (LACMTA; Metro), San Bernardino County Transportation Agency (SBCTA; Omnitrans),
-                or
-                other
-                organizations responsible for mobility in Southern California.
-            </p>
+            <button class="btn btn-neutral btn-block btn-sm mt-4" on:click={() => contentPaneExpanded = true}>
+                Show content
+                <Icon icon="carbon:arrow-right"/>
+            </button>
         </div>
-    </div>
+    {/if}
     <!--    Map -->
-    <div class="lg:w-2/3 h-full w-full">
-        <div bind:this={mapElement} class="h-full w-full"></div>
-    </div>
+    <div bind:this={mapElement} class="h-screen w-full z-0"></div>
 </div>
 
