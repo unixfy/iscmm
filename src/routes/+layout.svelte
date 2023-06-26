@@ -110,7 +110,24 @@
         </div>
         <!--        Footer -->
         <hr class="my-4">
-        <p class="italic">Copyright &copy; {new Date().getFullYear()} Unixfy. Proudly powered by SvelteKit.</p>
+        <div class="flex flex-col space-y-2">
+            <p>
+                Copyright &copy; {new Date().getFullYear()} <a href="https://alexwang.net" target="_blank"
+                                                               rel="noreferrer">Alex
+                Wang</a>. Proudly powered by SvelteKit.
+                Inspired by <a href="https://ibahm.org" target="_blank" rel="noreferrer">IBAHM</a> (Interactive Bay Area
+                Highway
+                Map).
+            </p>
+            <p class="text-xs">
+                Disclaimer: ISCMM, Unixfy, and Alex Wang are not affiliated with OpenStreetMap, Caltrans, Los Angeles
+                County Metropolitan
+                Transportation Agency (LACMTA; Metro), San Bernardino County Transportation Agency (SBCTA; Omnitrans),
+                or
+                other
+                organizations responsible for mobility in Southern California.
+            </p>
+        </div>
     </div>
     <!--    Map -->
     <div class="lg:w-2/3 h-full w-full">

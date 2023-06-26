@@ -26,25 +26,14 @@
 
     <p>
         While every effort is made to be accurate, problems might exist. If you find a problem, please
-        <a href="https://unixfy.net/contact" target="_blank">contact Unixfy</a>. Thanks!
+        <a href="https://unixfy.net/contact" target="_blank">contact me</a>.
     </p>
 
     <p>
         The data in this website is fetched from <a href="https://www.openstreetmap.org/" target="_blank"
                                                     rel="noreferrer">OpenStreetMap</a>, using the Overpass API and
         Overpass Query Language. Since OSM is a crowdsourced database, some data may be inaccurate and/or inconsistent.
-        In these cases, I recommend contributing to OpenStreetMap!
-    </p>
-
-    <p>
-        Neither ISCMM nor Unixfy are affiliated with OpenStreetMap, Caltrans, Los Angeles County Metropolitan
-        Transportation Agency (LACMTA; Metro), San Bernardino County Transportation Agency (SBCTA; Omnitrans), or other
-        government agencies responsible for mobility in Southern California.
-    </p>
-
-    <p>
-        Inspired by <a href="https://ibahm.org" target="_blank" rel="noreferrer">IBAHM</a> (Interactive Bay Area Highway
-        Map).
+        In these cases, I recommend contributing to OpenStreetMap.
     </p>
 
     <hr>
