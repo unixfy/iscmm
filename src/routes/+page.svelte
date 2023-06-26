@@ -1,3 +1,8 @@
+<script>
+    import Go511ItemCard from "$lib/Go511ItemCard.svelte";
+
+    export let data;
+</script>
 <h1>This is <span class="font-bold text-green-800">ISCMM</span></h1>
 <h2>Interactive SoCal Mobility Map</h2>
 
@@ -31,4 +36,21 @@
         Inspired by <a href="https://ibahm.org" target="_blank" rel="noreferrer">IBAHM</a> (Interactive Bay Area Highway
         Map).
     </p>
+
+    <hr>
+
+    <h2>Traffic Alerts</h2>
+
+    {#await data.streamed.go511Data}
+        Loading!
+    {:then go511Items}
+        {#each go511Items as go511Item}
+            <Go511ItemCard {go511Item}/>
+        {/each}
+        <p class="text-sm italic">
+            {go511Items.length} items retrieved. Data is from SoCal 511.
+        </p>
+    {:catch error}
+        <p>{error}</p>
+    {/await}
 </div>
