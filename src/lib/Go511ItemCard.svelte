@@ -3,7 +3,7 @@
 </script>
 
 <div class="card bg-base-200 shadow-lg">
-    <div class="card-body">
+    <div class="card-body p-4">
         <div class="card-title">
             <div>
                 <!--    Badges -->
