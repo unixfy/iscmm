@@ -1,5 +1,6 @@
 <script>
     import Go511ItemCard from "$lib/Go511ItemCard.svelte";
+    import LoadingAlert from "$lib/LoadingAlert.svelte";
 
     export let data;
 </script>
@@ -42,7 +43,7 @@
     <h2>Traffic Alerts</h2>
 
     {#await data.streamed.go511Data}
-        Loading!
+        <LoadingAlert/>
     {:then go511Items}
         {#each go511Items as go511Item}
             <Go511ItemCard {go511Item}/>

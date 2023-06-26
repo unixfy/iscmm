@@ -1,5 +1,6 @@
 <script>
     import RouteBullet from "$lib/RouteBullet.svelte";
+    import ErrorAlert from "$lib/ErrorAlert.svelte";
 
     export let data;
 </script>
@@ -57,9 +58,7 @@
         </form>
     </dialog>
 {:catch error}
-    <div class="alert alert-error mb-4">
-        <p>An error has occurred: {error}</p>
-    </div>
+    <ErrorAlert {error}/>
 {/await}
 
 <!--Button to return home-->

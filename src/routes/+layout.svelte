@@ -11,6 +11,8 @@
     import {onMount, onDestroy} from 'svelte';
     import {browser} from '$app/environment';
     import {goto} from "$app/navigation";
+    import ErrorAlert from "$lib/ErrorAlert.svelte";
+    import LoadingAlert from "$lib/LoadingAlert.svelte";
 
     export let data;
 
@@ -90,16 +92,9 @@
     <div class="p-4 lg:p-8 lg:w-1/3 h-full overflow-auto">
         <!--        Show loading if loading -->
         {#await Promise.all([data.streamed.exits, data.streamed.rail])}
-            <div class="alert alert-info mb-4">
-                <span class="loading loading-dots loading-md"></span>
-                <p>
-                    <b>Please wait</b> while we load the data.
-                </p>
-            </div>
+            <LoadingAlert/>
         {:catch error}
-            <div class="alert alert-error mb-4">
-                <p>An error has occurred: {error}</p>
-            </div>
+            <ErrorAlert {error}/>
         {/await}
 
         <!--    Slot -->
