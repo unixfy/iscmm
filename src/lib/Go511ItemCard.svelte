@@ -53,7 +53,12 @@
         <!--        Incident start date -->
         {#if go511Item.start}
             <p class="text-sm italic">
+                reported {go511Item.startDistanceToNow} ago:
                 {go511Item.start}
+
+                {#if go511Item.end}
+                    - {go511Item.end}
+                {/if}
             </p>
         {/if}
 
