@@ -51,9 +51,11 @@
 
 
         <!--        Incident start date -->
-        <p class="text-sm italic">
-            {go511Item.start}
-        </p>
+        {#if go511Item.start}
+            <p class="text-sm italic">
+                {go511Item.start}
+            </p>
+        {/if}
 
         <!--        Incident description -->
         <p>
