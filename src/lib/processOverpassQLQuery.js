@@ -51,6 +51,8 @@ export default async function (fetch, overpassQuery, nodeType) {
                 // if motorway_link_available, grab the destination tag from the motorway_link
                 if (node.tags['motorway_link_available'] && node.tags.motorway_link.destination) {
                     node.tags['destination'] = node.tags.motorway_link.destination.split(';').join(' / ')
+                } else if (node.tags['motorway_link_available'] && node.tags.motorway_link["destination:street"]) {
+                    node.tags['destination'] = node.tags.motorway_link["destination:street"].split(';').join(' / ')
                 }
 
                 // if motorway_link available, grab the destination:ref tag from the motorway_link
