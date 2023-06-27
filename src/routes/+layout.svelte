@@ -39,11 +39,15 @@
             const leaflet = await import('leaflet');
 
             // Start centered at 7th St/Metro Center in Downtown Los Angeles
-            map = leaflet.map(mapElement, {preferCanvas: true}).setView([34.0488664, -118.2613463], 12);
+            map = leaflet.map(mapElement, {preferCanvas: true, minZoom: 9, zoomControl: false}).setView([34.0488664, -118.2613463], 12);
 
+            // Add OSM tiles
             leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
+
+            // Add zoom control
+            leaflet.control.zoom({position: 'bottomright'}).addTo(map);
 
             let exits = await data.streamed.exits
             // add each exit to the map
