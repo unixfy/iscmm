@@ -25,7 +25,13 @@
                     {/if}
 
                     {#if exit[0].tags["destination:ref"]}
-                        <p class="text-sm">{exit[0].tags["destination:ref"]}</p>
+                        <p class="text-sm">
+                            {#if exit[0].tags.destination_symbol}
+                                <img src="{exit[0].tags.destination_symbol}"
+                                     class="inline max-h-12 mr-2"
+                                     alt='Symbol for {exit[0].tags["destination:ref"]}'/>
+                            {/if}
+                            {exit[0].tags["destination:ref"]}</p>
                     {/if}
                 </p>
             </div>

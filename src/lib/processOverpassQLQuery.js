@@ -60,6 +60,11 @@ export default async function (fetch, overpassQuery, nodeType) {
                     node.tags['destination:ref'] = node.tags.motorway_link['destination:ref'].split(';').join(' / ')
                     // also, if the pattern "I" with a space after it is found, replace it with "I-"
                     node.tags['destination:ref'] = node.tags['destination:ref'].replace(/I /g, 'I-')
+
+                //     If the destination:ref is in the freewaySymbolMap, add the symbol to the node
+                    if (node.tags['destination:ref'] in freewaySymbolMap) {
+                        node.tags['destination_symbol'] = freewaySymbolMap[node.tags['destination:ref']]
+                    }
                 }
 
                 // some ref tags have multiple values separated by semicolons
