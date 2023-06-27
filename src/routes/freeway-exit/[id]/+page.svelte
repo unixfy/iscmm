@@ -1,5 +1,6 @@
 <script>
     import ErrorAlert from "$lib/ErrorAlert.svelte";
+    import Icon from "@iconify/svelte";
 
     export let data;
 </script>
@@ -12,28 +13,34 @@
     <div class="sign-cluster">
         <div class="sign sign-green">
             <div class="flex flex-col space-y-2">
-                <p class="ml-auto border rounded-lg px-2 py-1">
+                <p class="ml-auto border rounded-lg px-2 py-1 mb-4">
                     <span class="uppercase">Exit</span>
                     <span class="text-2xl font-bold">{exit[0].tags.ref}</span>
                 </p>
 
-                <p class="font-bold text-3xl">
-                    {#if exit[0].tags.destination}
-                        {exit[0].tags.destination}
-                    {:else}
-                        Unnamed Exit
-                    {/if}
-
-                    {#if exit[0].tags["destination:ref"]}
-                        <p class="text-sm">
-                            {#if exit[0].tags.destination_symbol}
-                                <img src="{exit[0].tags.destination_symbol}"
-                                     class="inline max-h-12 mr-2"
-                                     alt='Symbol for {exit[0].tags["destination:ref"]}'/>
+                <div class="font-bold text-3xl flex justify-between">
+                    <div>
+                        <p>
+                            {#if exit[0].tags.destination}
+                                {exit[0].tags.destination}
+                            {:else}
+                                Unnamed Exit
                             {/if}
-                            {exit[0].tags["destination:ref"]}</p>
-                    {/if}
-                </p>
+                        </p>
+
+                        {#if exit[0].tags["destination:ref"]}
+                            <p class="text-sm">
+                                {#if exit[0].tags.destination_symbol}
+                                    <img src="{exit[0].tags.destination_symbol}"
+                                         class="inline max-h-12 mr-2"
+                                         alt='Symbol for {exit[0].tags["destination:ref"]}'/>
+                                {/if}
+                                {exit[0].tags["destination:ref"]}</p>
+                        {/if}
+                    </div>
+
+                    <Icon class="my-auto" width="1.5em" icon="icomoon-free:arrow-up-right"/>
+                </div>
             </div>
         </div>
 
