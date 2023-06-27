@@ -132,7 +132,7 @@
 
             <!--    Slot -->
             <div>
-                <button class="btn btn-neutral mb-4 btn-sm btn-block" on:click={() => contentPaneExpanded = false}>
+                <button class="btn btn-neutral mb-4 btn-block" on:click={() => contentPaneExpanded = false}>
                     <Icon icon="carbon:arrow-left"/>
                     Hide content
                 </button>
