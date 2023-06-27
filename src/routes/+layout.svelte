@@ -164,7 +164,7 @@
         </div>
     {:else}
         <!--Content pane hidden message-->
-        <div class="p-4 rounded-xl bg-white absolute mx-16 ru z-10 my-4 w-56" transition:slide={{axis: "x"}}>
+        <div class="p-4 rounded-xl bg-white absolute ml-4 z-10 mt-4 w-56 shadow-2xl" transition:slide={{axis: "x"}}>
             <p>
                 You're viewing page:
                 <b>{$page.data.title}</b>
