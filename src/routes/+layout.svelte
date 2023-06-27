@@ -16,7 +16,7 @@
     import LoadingAlert from "$lib/LoadingAlert.svelte";
     import {page} from "$app/stores";
     import Icon from "@iconify/svelte";
-    import {slide} from "svelte/transition";
+    import {fade, blur, fly, slide, scale, draw, crossfade} from "svelte/transition";
 
     export let data;
 
@@ -115,7 +115,7 @@
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
     {#if contentPaneExpanded}
         <!--    Page content -->
-        <div class="p-2 lg:p-6 lg:w-1/3 h-full overflow-auto absolute z-10 bg-white" transition:slide={{axis: "x"}}>
+        <div class="p-2 lg:p-6 lg:w-1/3 h-full overflow-auto absolute z-10 bg-white" transition:fly={{x: -1000, opacity:1}}>
             <!--    Noscript warning -->
             <noscript>
                 <div class="font-display font-bold text-white p-8 text-3xl mb-4" style="background-color:red;">
@@ -164,7 +164,7 @@
         </div>
     {:else}
         <!--Content pane hidden message-->
-        <div class="p-4 rounded-xl bg-white absolute ml-4 z-10 mt-4 w-56 shadow-2xl" transition:slide={{axis: "x"}}>
+        <div class="p-4 rounded-xl bg-white absolute ml-4 z-10 mt-4 w-56 shadow-2xl" transition:fly={{x: -1000, opacity:1}}>
             <p>
                 You're viewing page:
                 <b>{$page.data.title}</b>
