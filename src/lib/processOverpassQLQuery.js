@@ -69,7 +69,7 @@ export default async function (fetch, overpassQuery, nodeType) {
                 // if motorway_available, grab the ref and name tags from the motorway
                 if (node.tags['motorway_available']) {
                     if (node.tags.motorway.ref) {
-                        node.tags['fwy_number'] = node.tags.motorway.ref.split(' ').join('-').split(';').join(' / ')
+                        node.tags['fwy_number'] = node.tags.motorway.ref.replace(/I /g, 'I-')
                     }
 
                     if (node.tags.motorway.name) {
