@@ -16,6 +16,7 @@
     import LoadingAlert from "$lib/LoadingAlert.svelte";
     import {page} from "$app/stores";
     import Icon from "@iconify/svelte";
+    import {slide} from "svelte/transition";
 
     export let data;
 
@@ -110,7 +111,7 @@
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
     {#if contentPaneExpanded}
         <!--    Page content -->
-        <div class="p-2 lg:p-6 lg:w-1/3 h-full overflow-auto absolute z-10 bg-white">
+        <div class="p-2 lg:p-6 lg:w-1/3 h-full overflow-auto absolute z-10 bg-white" transition:slide={{axis: "x"}}>
             <!--    Noscript warning -->
             <noscript>
                 <div class="font-display font-bold text-white p-8 text-3xl mb-4" style="background-color:red;">
@@ -159,7 +160,7 @@
         </div>
     {:else}
         <!--Content pane hidden message-->
-        <div class="p-4 rounded-xl bg-white absolute mx-16 z-10 my-4 w-56">
+        <div class="p-4 rounded-xl bg-white absolute mx-16 ru z-10 my-4 w-56" transition:slide={{axis: "x"}}>
             <p>
                 You're viewing page:
                 <b>{$page.data.title}</b>
