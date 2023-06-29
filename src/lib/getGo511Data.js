@@ -11,11 +11,7 @@ export default async function (fetch) {
         const endDate = new Date(alert.EndDate)
         const startDate = new Date(alert.StartDate)
 
-        if (endDate < now || startDate > now) {
-            return false
-        } else {
-            return true
-        }
+        return !(endDate < now || startDate > now);
     })
 
 
@@ -74,6 +70,15 @@ export default async function (fetch) {
     const roadwork = await fetch("https://commonwebsite.go511.com/api/RoadWork/GetAll")
     let roadworkData = await roadwork.json()
 
+    // Filter road work data to remove items where the "endDate" key is in the past OR the "startDate" key is in the future
+    roadworkData = roadworkData.filter(roadwork => {
+        const now = new Date()
+        const endDate = new Date(roadwork.PlannedEndDate)
+        const startDate = new Date(roadwork.StartDate)
+
+        return !(endDate < now || startDate > now);
+    })
+
     // Format roadwork data
     roadworkData = roadworkData.map(roadwork => {
         let returnObj = {
@@ -128,7 +133,7 @@ export default async function (fetch) {
         return returnObj
     })
 
-    // Then return everything in one big object
+    // Then return everything in one big array
     return [...alertsData, ...incidentsData, ...roadworkData, ...roadconditionData]
 
 }
