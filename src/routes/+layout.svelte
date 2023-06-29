@@ -108,7 +108,7 @@
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
     {#if contentPaneExpanded}
         <!--    Page content -->
-        <div class="p-2 lg:p-6 lg:w-1/3 h-full overflow-auto absolute z-10 bg-white"
+        <div class="p-2 lg:p-6 lg:w-1/3 h-full overflow-auto absolute z-10 bg-base-100"
              transition:fly={{x: -1000, opacity:1}}>
             <!--    Noscript warning -->
             <noscript>
@@ -162,13 +162,16 @@
         </div>
     {:else}
         <!--Content pane hidden message-->
-        <div class="p-4 rounded-xl bg-white absolute ml-4 z-10 mt-4 w-56 shadow-2xl"
+        <div class="p-4 rounded-xl bg-base-100 absolute ml-4 z-10 mt-4 w-64 shadow-2xl"
              transition:fly={{x: -1000, opacity:1}}>
+            <p class="text-2xl font-display font-extrabold text-green-800">
+                ISCMM
+            </p>
             <p>
                 You're viewing page:
                 <b>{$page.data.title}</b>
             </p>
-            <button class="btn btn-neutral btn-block btn-md lg:btn-sm mt-4" on:click={() => contentPaneExpanded = true}>
+            <button class="btn btn-neutral btn-block btn-md lg:btn-sm mt-2" on:click={() => contentPaneExpanded = true}>
                 Show content
                 <Icon icon="carbon:arrow-right"/>
             </button>
