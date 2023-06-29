@@ -5,10 +5,8 @@
     export let data;
 </script>
 
-<h1>Freeway Exit Detail</h1>
-
 {#await data.streamed.exit}
-    <div class="bg-gray-300 animate-pulse h-56 rounded-lg my-8"></div>
+    <div class="sign-loading"></div>
 {:then exit}
     <div class="sign-cluster">
         <div class="sign sign-green">
@@ -85,6 +83,3 @@
 {:catch error}
     <ErrorAlert {error}/>
 {/await}
-
-<!--Button to return home-->
-<a href="/" class="btn btn-primary">Return home</a>

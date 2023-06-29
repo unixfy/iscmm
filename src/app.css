@@ -39,5 +39,9 @@ p > a {
 }
 
 .sign-cluster {
-    @apply flex flex-col space-y-4 my-8
+    @apply flex flex-col space-y-4 my-4
+}
+
+.sign-loading {
+    @apply bg-gray-300 animate-pulse h-56 rounded-lg my-4
 }

@@ -5,10 +5,8 @@
     export let data;
 </script>
 
-<h1>Transit Station Detail</h1>
-
 {#await data.streamed.station}
-    <div class="bg-gray-300 animate-pulse h-56 rounded-lg my-8"></div>
+    <div class="sign-loading"></div>
 {:then station}
     <div class="sign-cluster">
         <div class="sign sign-black flex flex-col space-y-4">
@@ -60,6 +58,3 @@
 {:catch error}
     <ErrorAlert {error}/>
 {/await}
-
-<!--Button to return home-->
-<a href="/" class="btn btn-primary">Return home</a>
