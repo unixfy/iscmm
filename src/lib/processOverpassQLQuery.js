@@ -89,8 +89,8 @@ export default async function (fetch, overpassQuery, nodeType) {
 
             }
         }
-    } else if (nodeType === 'rail_stations') {
-        nodes = data.elements.filter(element => element.type === 'node').filter(node => node.tags && node.tags.railway === "station")
+    } else if (nodeType === 'transit') {
+        nodes = data.elements.filter(element => element.type === 'node').filter(node => node.tags)
 
         // Get an array of the routes
         // Node that we need to filter for relations with a tag "type" = "route' on our end due to bugginess in Overpass API
@@ -115,7 +115,9 @@ export default async function (fetch, overpassQuery, nodeType) {
         // We will then add that array to the "ref" tag
         for (const uniqueRoute of uniqueRoutesByRef) {
             const routesWithSameRef = routes.filter(relation => relation.tags.ref === uniqueRoute.ref)
-            const toTags = routesWithSameRef.map(relation => relation.tags.to)
+            // Note that we need to dedupe the "to" tags because there are some routes that share the same "to" as another route
+            // Example is J line 910 and J Line 950 (both have El Monte as the EB destination)
+            const toTags = [...new Set(routesWithSameRef.map(relation => relation.tags.to))]
             const route = {
                 ...uniqueRoute,
                 to: toTags,
