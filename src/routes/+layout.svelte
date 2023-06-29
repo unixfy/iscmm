@@ -29,8 +29,6 @@
     let contentPaneExpanded;
 
     onMount(async () => {
-        contentPaneExpanded = innerWidth > 768;
-
         if (browser) {
             const leaflet = await import('leaflet');
 
