@@ -15,7 +15,7 @@
                 <p>{station[0].tags.network}</p>
             </div>
 
-            <div class="my-auto flex space-x-1">
+            <div class="my-auto flex gap-2 flex-wrap">
                 <!--                    Route bullets -->
                 {#each station[0].routes_served as route}
                     <RouteBullet ref={route.ref} background={route.colour}/>
