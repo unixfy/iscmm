@@ -23,10 +23,7 @@
     let mapElement;
     let map;
 
-    // Measures screen width
-    let innerWidth;
-
-    let contentPaneExpanded;
+    let contentPaneExpanded = true;
 
     onMount(async () => {
         if (browser) {
@@ -108,8 +105,6 @@
     <title>{(($page.error) ? "Error" : $page.data.title || "Welcome")} | Interactive SoCal Mobility Map</title>
 </svelte:head>
 
-<svelte:window bind:innerWidth={innerWidth}/>
-
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
     {#if contentPaneExpanded}
         <!--    Page content -->
@@ -131,9 +126,13 @@
 
             <!--    Slot -->
             <div>
-                <button class="btn btn-neutral mb-4 btn-block" on:click={() => contentPaneExpanded = false}>
+                <button class="btn btn-primary lg:btn-neutral mb-4 btn-block" on:click={() => contentPaneExpanded = false}>
                     <Icon icon="carbon:arrow-left"/>
-                    Hide content
+                    <div>
+                        Hide content
+                        <!--                    Only show "Show map" text on screens smaller than lg -->
+                        <span class="inline lg:hidden">/ show map</span>
+                    </div>
                 </button>
                 <slot/>
             </div>
@@ -169,7 +168,7 @@
                 You're viewing page:
                 <b>{$page.data.title}</b>
             </p>
-            <button class="btn btn-neutral btn-block btn-sm mt-4" on:click={() => contentPaneExpanded = true}>
+            <button class="btn btn-neutral btn-block btn-md lg:btn-sm mt-4" on:click={() => contentPaneExpanded = true}>
                 Show content
                 <Icon icon="carbon:arrow-right"/>
             </button>
