@@ -131,6 +131,10 @@ export default async function (fetch, overpassQuery, nodeType) {
             node.routes_served = routesCleaned
         }
 
+        // Drop nodes that don't have an "operator" or "network" tag
+        // This removes bogus nodes that aren't actually part of a transportation network (e.g. Glendale Transportation Center)
+        nodes = nodes.filter(node => node.tags.operator || node.tags.network)
+
     } else {
         nodes = data.elements.filter(element => element.type === 'node')
     }
