@@ -134,6 +134,11 @@ export default async function (fetch, overpassQuery, nodeType) {
         // We don't check that relations contain the "node" because it's not guaranteed in this case
         for (const node of nodes) {
             node.routes_served = routesCleaned
+
+            // Some nodes have multiple networks separated by semicolons, we need to use / instead
+            if (node.tags.network) {
+                node.tags.network = node.tags.network.split(';').join(' / ')
+            }
         }
 
         // Drop nodes that don't have an "operator" or "network" tag
