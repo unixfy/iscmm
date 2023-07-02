@@ -131,8 +131,6 @@ export default async function (fetch, overpassQuery, nodeType) {
             node.routes_served = routesCleaned
         }
 
-    } else if (nodeType === 'rail_stops') {
-        nodes = data.elements.filter(element => element.type === 'node').filter(node => node.tags && node.tags.railway === "stop")
     } else {
         nodes = data.elements.filter(element => element.type === 'node')
     }
