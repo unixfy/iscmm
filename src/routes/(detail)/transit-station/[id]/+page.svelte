@@ -12,7 +12,10 @@
         <div class="sign sign-black flex flex-col space-y-4">
             <div>
                 <p class="text-2xl font-bold break-words">{station[0].tags.name}</p>
-                <p>{station[0].tags.network}</p>
+
+                {#if station[0].tags.network}
+                    <p>{station[0].tags.network}</p>
+                {/if}
             </div>
 
             <div class="my-auto flex gap-2 flex-wrap">
@@ -21,6 +24,10 @@
                     <RouteBullet ref={route.ref} background={route.colour}/>
                 {/each}
             </div>
+
+            {#if station[0].tags.operator}
+                <p class="italic text-sm">Station operated by {station[0].tags.operator}</p>
+            {/if}
         </div>
 
         {#each station[0].routes_served as route}
@@ -37,6 +44,11 @@
                 <p class="italic text-sm">Operated by {route.operator}</p>
 
             </div>
+        {:else}
+            <div class="alert shadow-md">
+                <p>This station has no regularly scheduled fixed-route transit service.</p>
+            </div>
+
         {/each}
     </div>
 
