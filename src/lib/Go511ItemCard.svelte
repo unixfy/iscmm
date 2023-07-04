@@ -17,7 +17,6 @@
                     <Icon class="text-info" height="1.5em" icon="carbon:construction"/>
                 {:else if go511Item.type === "Closure"}
                     <Icon class="text-error" height="1.5em" icon="carbon:close-filled"/>
-                {:else}
                 {/if}
             </div>
             <div>
