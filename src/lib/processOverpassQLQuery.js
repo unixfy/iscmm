@@ -1,93 +1,121 @@
 import freewaySymbolMap from './freewaySymbolMap.json'
+import {FreewayExit} from "$lib/classes.js";
 
 export default async function (fetch, overpassQuery, nodeType) {
+    // Call the Overpass API
     const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`)
     const data = await response.json()
 
-    let nodes;
+    let nodes = [];
 
     if (nodeType === 'exits') {
         // Get an array of the nodes
         // We filter out all the nodes that don't have a "ref" tag
-        nodes = data.elements.filter(element => element.type === 'node').filter(node => node.tags && node.tags.ref)
+        const nodesRaw = data.elements.filter(element => element.type === 'node').filter(node => node.tags && node.tags.ref)
 
         // Get an array of the ways
         // We filter out all the non highway ways
-        const ways = data.elements.filter(element => element.type === 'way').filter(way => way.tags && way.tags.highway)
+        const waysRaw = data.elements.filter(element => element.type === 'way').filter(way => way.tags && way.tags.highway)
 
         // Get an array of the relations
-        const relations = data.elements.filter(element => element.type === 'relation').filter(relation => relation.tags && relation.tags.route)
+        // We filter out all the non route relations
+        const relationsRaw = data.elements.filter(element => element.type === 'relation').filter(relation => relation.tags && relation.tags.route)
 
         // Iterate through each "way" and find which "relations" it is a part of, based the relations' "members" array
-        for (const way of ways) {
-            const relationsContainingWay = relations.filter(relation => relation.members.some(member => member.type === 'way' && member.ref === way.id))
+        for (const way of waysRaw) {
+            const relationsContainingWay = relationsRaw.filter(relation => relation.members.some(member => member.type === 'way' && member.ref === way.id))
             // Extract the tags from each relationsContainingWay and put them in an array
             const tagsFromRelationsContainingWay = relationsContainingWay.map(relation => relation.tags)
             // If the way is part of a relation, add the relation's tags to the way's tags
             if (relationsContainingWay.length > 0) {
-                way.tags = {...way.tags, relationTags: tagsFromRelationsContainingWay}
+                way.tags = {...way.tags, relation_tags: tagsFromRelationsContainingWay}
             }
         }
 
-        // Iterate through each "node" and find which "ways" it is a part of, based on the ways' "nodes" array
-        for (const node of nodes) {
-            const waysContainingNode = ways.filter(way => way.nodes.includes(node.id))
-            // If the node is part of a way, add the way's tags to the node
-            // We will find that one of the ways has the tag "highway" = "motorway_link"
-            // and the other has the tag "highway" = "motorway"
-            // We will put the tags from the "motorway_link" way on the node, at tags.motorway_link
-            // and the tags from the "motorway" way on the node, at tags.motorway
+        for (const node of nodesRaw) {
+            // Extract the ways that contain this node
+            const waysContainingNode = waysRaw.filter(way => way.nodes.includes(node.id))
+
+            let workingNode = new FreewayExit({
+                id: node.id,
+                lat: node.lat,
+                lon: node.lon,
+                ref: node.tags.ref.split(';'),
+                tags: node.tags || {}
+            })
+
+            // If the node is part of at least one way...
             if (waysContainingNode.length > 0) {
-                node.tags = node.tags || {}
+                // Iterate over each way that contains this node
                 for (const way of waysContainingNode) {
-                    node.tags[way.tags.highway] = way.tags
-                }
+                    // If the way has a tag highway = motorway, add the way's tags to the node's motorway_tags
+                    if (way.tags.highway === 'motorway') {
+                        workingNode.motorway_tags = way.tags
+                    }
 
-                // whether tags.motorway_link exists
-                node.tags['motorway_link_available'] = 'motorway_link' in node.tags
-                // whether tags.motorway exists
-                node.tags['motorway_available'] = 'motorway' in node.tags
-
-                // if motorway_link_available, grab the destination tag from the motorway_link
-                if (node.tags['motorway_link_available'] && node.tags.motorway_link.destination) {
-                    node.tags['destination'] = node.tags.motorway_link.destination.split(';').join(' / ')
-                } else if (node.tags['motorway_link_available'] && node.tags.motorway_link["destination:street"]) {
-                    node.tags['destination'] = node.tags.motorway_link["destination:street"].split(';').join(' / ')
-                }
-
-                // if motorway_link available, grab the destination:ref tag from the motorway_link
-                if (node.tags['motorway_link_available'] && node.tags.motorway_link['destination:ref']) {
-                    node.tags['destination:ref'] = node.tags.motorway_link['destination:ref'].split(';').join(' / ')
-                    // also, if the pattern "I" with a space after it is found, replace it with "I-"
-                    node.tags['destination:ref'] = node.tags['destination:ref'].replace(/I /g, 'I-')
-
-                    //     If the destination:ref is in the freewaySymbolMap, add the symbol to the node
-                    if (node.tags['destination:ref'] in freewaySymbolMap) {
-                        node.tags['destination_symbol'] = freewaySymbolMap[node.tags['destination:ref']]
+                    // If the way has a tag highway = motorway_link, add the way's tags to the node's motorway_link_tags
+                    if (way.tags.highway === 'motorway_link') {
+                        workingNode.motorway_link_tags = way.tags
                     }
                 }
 
-                // some ref tags have multiple values separated by semicolons
-                // we replace the semicolons with slashes
-                node.tags['ref'] = node.tags.ref.split(';').join(' / ')
-
-                // if motorway_available, grab the ref and name tags from the motorway
-                if (node.tags['motorway_available']) {
-                    if (node.tags.motorway.ref) {
-                        node.tags['fwy_number'] = node.tags.motorway.ref.replace(/I /g, 'I-')
+                if (workingNode.motorway_link_available()) {
+                    // Handle the node's "Destination"
+                    // if motorway_link_available, grab the destination tag from the motorway_link
+                    if (workingNode.motorway_link_tags.destination) {
+                        workingNode.destination = workingNode.motorway_link_tags.destination.split(';')
+                    } else if (workingNode.motorway_link_tags["destination:street"]) {
+                        workingNode.destination = workingNode.motorway_link_tags["destination:street"].split(';')
                     }
 
-                    if (node.tags.motorway.name) {
-                        node.tags['fwy_name'] = node.tags.motorway.name.split(';').join(' / ')
+                    // Handle the node's "Destination_ref"
+                    // if motorway_link available, grab the destination:ref tag from the motorway_link
+                    if (workingNode.motorway_link_tags['destination:ref']) {
+                        // also, if the pattern "I" with a space after it is found, replace it with "I-"
+                        workingNode.destination_ref = workingNode.motorway_link_tags['destination:ref'].replace(/I /g, 'I-').split(';')
+
+                        // Handle the node's "Destination_symbol"
+                        // for each destination_ref, check if it's in the freewaySymbolMap, and if so, add the symbol to the node
+                        if (workingNode.destination_ref) {
+                            workingNode.destination_symbol = workingNode.destination_ref.map(number => {
+                                if (number in freewaySymbolMap) {
+                                    return freewaySymbolMap[number]
+                                }
+                            }).filter(Boolean)
+                        }
+                    }
+                }
+
+                if (workingNode.motorway_available()) {
+                    // Handle the node's "Freeway_number"
+                    if (workingNode.motorway_tags.ref) {
+                        workingNode.freeway_number = workingNode.motorway_tags.ref.replace(/I /g, 'I-').split(';')
                     }
 
-                    // if the fwy_number is in freewaySymbolMap, add the symbol to the node
-                    if (node.tags['fwy_number'] in freewaySymbolMap) {
-                        node.tags['fwy_symbol'] = freewaySymbolMap[node.tags['fwy_number']]
+                    // Handle the node's "Freeway_name"
+                    if (workingNode.motorway_tags.name) {
+                        workingNode.freeway_name = workingNode.motorway_tags.name.split(';')
+                    }
+
+                    // Handle the node's "Freeway_symbol"
+                    // for each freeway_number, check if it's in the freewaySymbolMap, and if so, add the symbol to the node
+                    if (workingNode.freeway_number) {
+                        workingNode.freeway_symbol = workingNode.freeway_number.map(number => {
+                            if (number in freewaySymbolMap) {
+                                return freewaySymbolMap[number]
+                            }
+                        }).filter(Boolean)
+                    }
+
+                    // Handle the node's "Freeway_direction"
+                    if (workingNode.motorway_tags.relation_tags && workingNode.motorway_tags.relation_tags[0].direction) {
+                        workingNode.freeway_direction = workingNode.motorway_tags.relation_tags[0].direction
                     }
                 }
 
             }
+
+            nodes.push(workingNode)
         }
     } else if (nodeType === 'transit') {
         nodes = data.elements.filter(element => element.type === 'node').filter(node => node.tags)
@@ -147,6 +175,11 @@ export default async function (fetch, overpassQuery, nodeType) {
 
     } else {
         nodes = data.elements.filter(element => element.type === 'node')
+    }
+
+    // Eliminate the need to keep accessing [0] index if there's just one node
+    if (nodes.length === 1) {
+        return nodes[0]
     }
 
     return nodes;

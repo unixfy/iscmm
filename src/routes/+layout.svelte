@@ -27,6 +27,11 @@
 
     onMount(async () => {
         if (browser) {
+            // Override Array.prototype.toString to use / instead of ,
+            Array.prototype.toString = function () {
+                return this.join(' / ');
+            };
+
             const leaflet = await import('leaflet');
 
             // Start centered at 7th St/Metro Center in Downtown Los Angeles
@@ -48,11 +53,11 @@
             // add each exit to the map
             exits.forEach(exit => {
                 // generate the  tooltip strings
-                let tooltipString = `Exit ${exit.tags.ref}`
+                let tooltipString = `Exit ${exit.ref}`
 
                 // if destination is defined, add the destination to the tooltip
-                if (exit.tags.destination) {
-                    tooltipString += ` - ${exit.tags.destination}`
+                if (exit.destination) {
+                    tooltipString += ` - ${exit.destination}`
                 }
 
                 leaflet.circleMarker([exit.lat, exit.lon], {
@@ -126,7 +131,8 @@
 
             <!--    Slot -->
             <div>
-                <button class="btn btn-primary lg:btn-neutral mb-4 btn-block" on:click={() => contentPaneExpanded = false}>
+                <button class="btn btn-primary lg:btn-neutral mb-4 btn-block"
+                        on:click={() => contentPaneExpanded = false}>
                     <Icon icon="carbon:arrow-left"/>
                     <div>
                         Hide content
