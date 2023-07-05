@@ -174,7 +174,7 @@
                 ISCMM
             </p>
             <p>
-                You're viewing page:
+                You're viewing
                 <b>{$page.data.title}</b>
             </p>
             <button class="btn btn-neutral btn-block btn-md lg:btn-sm mt-2" on:click={() => contentPaneExpanded = true}>
