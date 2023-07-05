@@ -35,7 +35,8 @@
                                              alt='Symbol for {exit.destination_ref}'/>
                                     {/each}
                                 {/if}
-                                {exit.destination_ref}</p>
+                                {exit.destination_ref}
+                            </p>
                         {/if}
                     </div>
 
@@ -58,7 +59,14 @@
 
                     <div class="flex flex-col m-auto">
                         {#if exit.freeway_number}
-                            <p class="font-bold text-4xl">{exit.freeway_number}</p>
+                            <p class="font-bold text-4xl">
+                                {exit.freeway_number}
+                                {#if exit.freeway_direction}
+                                    <span class="text-2xl uppercase">
+                                    {exit.freeway_direction}
+                                    </span>
+                                {/if}
+                            </p>
                         {/if}
                         {#if exit.freeway_name}
                             <p class="text-xl">{exit.freeway_name}</p>
