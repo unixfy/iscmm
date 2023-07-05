@@ -1,6 +1,6 @@
 <script>
     import ErrorAlert from "$lib/ErrorAlert.svelte";
-    import Icon from "@iconify/svelte";
+    import 'iconify-icon';
 
     export let data;
 </script>
@@ -40,7 +40,7 @@
                         {/if}
                     </div>
 
-                    <Icon class="my-auto" width="1.5em" icon="icomoon-free:arrow-up-right"/>
+                    <iconify-icon width="1.5em" icon="icomoon-free:arrow-up-right"></iconify-icon>
                 </div>
             </div>
         </div>

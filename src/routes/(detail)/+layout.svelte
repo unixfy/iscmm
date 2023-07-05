@@ -1,15 +1,15 @@
 <script>
     import {page} from "$app/stores";
-    import Icon from "@iconify/svelte";
+    import 'iconify-icon';
 </script>
 
 <div class="mt-2">
     <h1>
         {#if $page.route.id.includes("/freeway-exit/")}
-            <Icon class="inline" icon="mdi:highway"/>
+            <iconify-icon inline icon="mdi:highway"></iconify-icon>
             Freeway Exit
         {:else if $page.route.id.includes("/transit-station/")}
-            <Icon class="inline" icon="material-symbols:train"/>
+            <iconify-icon inline icon="material-symbols:train"></iconify-icon>
             Transit Station
         {/if}
         Detail

@@ -1,7 +1,7 @@
 <script>
     import Go511ItemCard from "$lib/Go511ItemCard.svelte";
     import LoadingAlert from "$lib/LoadingAlert.svelte";
-    import Icon from "@iconify/svelte";
+    import 'iconify-icon';
 
     export let data;
 </script>
@@ -10,7 +10,7 @@
     <div>
         <h1 class="flex font-extrabold">
             ISCMM
-            <Icon class="inline ml-auto" icon="el:arrow-right"/>
+            <iconify-icon class="ml-auto" icon="el:arrow-right"></iconify-icon>
         </h1>
         <p class="uppercase text-md">Interactive SoCal Mobility Map</p>
     </div>
@@ -43,7 +43,7 @@
         <input type="checkbox" checked class="min-h-0"/>
         <div class="collapse-title px-0 min-h-0">
             <h2>
-                <Icon class="inline" icon="carbon:traffic-cone"/>
+                <iconify-icon inline icon="carbon:traffic-cone"></iconify-icon>
                 Traffic Alerts
             </h2>
         </div>

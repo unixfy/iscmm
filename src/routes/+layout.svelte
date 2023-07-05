@@ -15,7 +15,7 @@
     import ErrorAlert from "$lib/ErrorAlert.svelte";
     import LoadingAlert from "$lib/LoadingAlert.svelte";
     import {page} from "$app/stores";
-    import Icon from "@iconify/svelte";
+    import "iconify-icon";
     import {fly} from "svelte/transition";
 
     export let data;
@@ -133,7 +133,7 @@
             <div>
                 <button class="btn btn-primary lg:btn-neutral mb-4 btn-block"
                         on:click={() => contentPaneExpanded = false}>
-                    <Icon icon="carbon:arrow-left"/>
+                    <iconify-icon icon="carbon:arrow-left"></iconify-icon>
                     <div>
                         Hide content
                         <!--                    Only show "Show map" text on screens smaller than lg -->
@@ -179,7 +179,7 @@
             </p>
             <button class="btn btn-neutral btn-block btn-md lg:btn-sm mt-2" on:click={() => contentPaneExpanded = true}>
                 Show content
-                <Icon icon="carbon:arrow-right"/>
+                <iconify-icon icon="carbon:arrow-right"></iconify-icon>
             </button>
         </div>
     {/if}

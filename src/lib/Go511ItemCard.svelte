@@ -1,5 +1,5 @@
 <script>
-    import Icon from "@iconify/svelte";
+    import 'iconify-icon'
 
     export let go511Item;
 </script>
@@ -10,13 +10,13 @@
             <!--            Icon slot -->
             <div>
                 {#if go511Item.type === "Alert"}
-                    <Icon class="text-warning" height="1.5em" icon="carbon:warning-filled"/>
+                    <iconify-icon class="text-warning text-3xl" inline icon="carbon:warning-filled"></iconify-icon>
                 {:else if go511Item.type === "Incident"}
-                    <Icon class="text-warning" height="1.5em" icon="carbon:traffic-flow-incident"/>
+                    <iconify-icon class="text-warning text-3xl" inline icon="carbon:traffic-flow-incident"></iconify-icon>
                 {:else if go511Item.type === "Road Work"}
-                    <Icon class="text-info" height="1.5em" icon="carbon:construction"/>
+                    <iconify-icon class="text-info text-3xl" inline icon="carbon:construction"></iconify-icon>
                 {:else if go511Item.type === "Closure"}
-                    <Icon class="text-error" height="1.5em" icon="carbon:close-filled"/>
+                    <iconify-icon class="text-error text-3xl" inline icon="carbon:close-filled"></iconify-icon>
                 {/if}
             </div>
             <div>
@@ -81,14 +81,14 @@
 
         <!--        Incident description -->
         <p>
-            <Icon class="inline" height="1.25em" icon="carbon:text-align-center"/>
+            <iconify-icon inline icon="carbon:text-align-center"/>
             <b>Description: </b> {go511Item.description}
         </p>
 
         <!--        Location -->
         {#if go511Item.location}
             <p>
-                <Icon class="inline" height="1.25em" icon="carbon:location-filled"/>
+                <iconify-icon inline icon="carbon:location-filled"/>
                 <b>Location:</b> {go511Item.location}
             </p>
         {/if}
@@ -96,7 +96,7 @@
         <!--Lanes affected-->
         {#if go511Item.lanes}
             <p>
-                <Icon class="inline" height="1.25em" icon="carbon:traffic-flow"/>
+                <iconify-icon inline icon="carbon:traffic-flow"/>
                 <b>Lane(s):</b> {go511Item.lanes}
             </p>
         {/if}
@@ -104,7 +104,7 @@
         <!--More info link if available-->
         {#if go511Item.url}
             <a href="{go511Item.url}" target="_blank" class="btn btn-neutral btn-sm">More info
-                <Icon icon="carbon:arrow-up-right"/>
+                <iconify-icon icon="carbon:arrow-up-right"/>
             </a>
         {/if}
     </div>
