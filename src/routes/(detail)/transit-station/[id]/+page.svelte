@@ -1,37 +1,33 @@
 <script>
     import RouteBullet from "$lib/RouteBullet.svelte";
-    import ErrorAlert from "$lib/ErrorAlert.svelte";
     import "iconify-icon";
 
     export let data;
 </script>
 
-{#await data.streamed.station}
-    <div class="sign-loading"></div>
-{:then station}
     <div class="sign-cluster">
         <div class="sign sign-black flex flex-col space-y-4">
             <div>
-                <p class="text-2xl font-bold break-words">{station.name}</p>
+                <p class="text-2xl font-bold break-words">{data.station.name}</p>
 
-                {#if station.network}
-                    <p>{station.network}</p>
+                {#if data.station.network}
+                    <p>{data.station.network}</p>
                 {/if}
             </div>
 
             <div class="my-auto flex gap-2 flex-wrap">
                 <!--                    Route bullets -->
-                {#each station.routes as route}
+                {#each data.station.routes as route}
                     <RouteBullet ref={route.ref} background={route.colour}/>
                 {/each}
             </div>
 
-            {#if station.operator}
-                <p class="italic text-sm">Station operated by {station.operator}</p>
+            {#if data.station.operator}
+                <p class="italic text-sm">Station operated by {data.station.operator}</p>
             {/if}
         </div>
 
-        {#each station.routes as route}
+        {#each data.station.routes as route}
             <div class="sign sign-blue">
                 <p class="text-2xl font-bold">{route.network}: {route.ref} Line</p>
 
@@ -57,7 +53,7 @@
             </div>
         {:else}
             <div class="alert shadow-md">
-                <p>This station has no regularly scheduled fixed-route transit service.</p>
+                <p>This data.station has no regularly scheduled fixed-route transit service.</p>
             </div>
 
         {/each}
@@ -70,7 +66,7 @@
             <button class="btn btn-sm btn-circle btn-neutral absolute right-4 top-4">✕</button>
             <h3 class="font-bold text-lg">Raw JSON from Overpass API</h3>
             <p class="py-4 font-mono break-all">
-                {JSON.stringify(station)}
+                {JSON.stringify(data.station)}
             </p>
             <p class="text-sm">id: {data.id}</p>
         </form>
@@ -78,6 +74,3 @@
             <button>close</button>
         </form>
     </dialog>
-{:catch error}
-    <ErrorAlert {error}/>
-{/await}
