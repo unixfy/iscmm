@@ -74,10 +74,10 @@
                     });
             })
 
-            let transit = await data.streamed.transit
+            let stations = await data.streamed.stations
             // add each transit station to the map
-            transit.forEach(rail => {
-                let popupString = `${rail.tags.name} - ${rail.tags.network}`
+            stations.forEach(rail => {
+                let popupString = `${rail.name} - ${rail.network}`
                 leaflet.circleMarker([rail.lat, rail.lon], {
                     color: "#003f87",
                     radius: 10,
@@ -123,7 +123,7 @@
             </noscript>
 
             <!--        Show loading if loading -->
-            {#await Promise.all([data.streamed.exits, data.streamed.transit])}
+            {#await Promise.all([data.streamed.exits, data.streamed.stations])}
                 <LoadingAlert/>
             {:catch error}
                 <ErrorAlert {error}/>

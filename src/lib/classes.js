@@ -2,13 +2,6 @@
 // This is a simple implementation of the classical inheritance pattern
 export class BaseClass {
     constructor(item) {
-
-    }
-}
-
-export class FreewayExit extends BaseClass {
-    constructor(item) {
-        super(item);
         // OSM ID
         // integer
         this.id = item.id
@@ -16,6 +9,16 @@ export class FreewayExit extends BaseClass {
         // integer
         this.lat = item.lat
         this.lon = item.lon
+
+        // Tags from OSM
+        // object
+        this.tags = item.tags
+    }
+}
+
+export class FreewayExit extends BaseClass {
+    constructor(item) {
+        super(item);
         // Exit number (ref)
         // array
         this.ref = item.ref
@@ -41,9 +44,6 @@ export class FreewayExit extends BaseClass {
         // array
         this.destination_symbol = item.destination_symbol
 
-        // Tags from OSM
-        // object
-        this.tags = item.tags
         // Tags from OSM for the motorway that this exit is on
         // object
         this.motorway_tags = item.motorway_tags || {}
@@ -66,5 +66,20 @@ export class FreewayExit extends BaseClass {
 }
 
 export class TransitStation extends BaseClass {
+    constructor(item) {
+        super(item);
 
+        // Station name
+        // string
+        this.name = item.name
+        // Station operator
+        // string
+        this.operator = item.operator
+        // Network(s) that this station is part of
+        // array
+        this.network = item.network
+        // Routes that serve this station
+        // array
+        this.routes = item.routes
+    }
 }

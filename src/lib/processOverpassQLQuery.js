@@ -1,5 +1,5 @@
 import freewaySymbolMap from './freewaySymbolMap.json'
-import {FreewayExit} from "$lib/classes.js";
+import {FreewayExit, TransitStation} from "$lib/classes.js";
 
 export default async function (fetch, overpassQuery, nodeType) {
     // Call the Overpass API
@@ -118,61 +118,80 @@ export default async function (fetch, overpassQuery, nodeType) {
             nodes.push(workingNode)
         }
     } else if (nodeType === 'transit') {
-        nodes = data.elements.filter(element => element.type === 'node').filter(node => node.tags)
+        // Get all the nodes (only those that have tags)
+        // Drop nodes that don't have an "operator" or "network" tag
+        const nodesRaw = data.elements
+            .filter(element => element.type === 'node')
+            .filter(node => node.tags && (node.tags.operator || node.tags.network))
 
         // Get an array of the routes
         // Node that we need to filter for relations with a tag "type" = "route' on our end due to bugginess in Overpass API
-        const routes = data.elements.filter(element => element.type === 'relation').filter(relation => relation.tags && relation.tags.type === "route")
-
-        // Stores cleaned and deduped routes
-        const routesCleaned = []
-
-        // Iterate through routes and dedupe them on the "ref" tag while adding direction info
-
-        // Get an array of the unique routes by their "ref" tags, while keeping certain common tags
-        const uniqueRoutesByRef = [...new Set(routes.map(relation => JSON.stringify({
-            ref: relation.tags.ref,
-            colour: relation.tags.colour,
-            network: relation.tags.network,
-            operator: relation.tags.operator,
-            wikipedia: relation.tags.wikipedia,
-        })))].map(string => JSON.parse(string))
-
-        // Then, iterate through the unique "ref" tags and find the routes that have that "ref" tag
-        // We will find all the relations that have the same "ref" tag and add their "to" tags to an array
-        // We will then add that array to the "ref" tag
-        for (const uniqueRoute of uniqueRoutesByRef) {
-            const routesWithSameRef = routes.filter(relation => relation.tags.ref === uniqueRoute.ref)
-            // Note that we need to dedupe the "to" tags because there are some routes that share the same "to" as another route
-            // Example is J line 910 and J Line 950 (both have El Monte as the EB destination)
-            const toTags = [...new Set(routesWithSameRef.map(relation => relation.tags.to))]
-            const route = {
-                ...uniqueRoute,
-                to: toTags,
-            }
-
-            // Add this check to make sure that the route has at least one "to" tag
-            // Local bus routes that use busway stations will not have "to" tags and should be removed
-            if (route.to.length > 0 && typeof route.to[0] !== 'undefined') {
-                routesCleaned.push(route)
-            }
-        }
+        const routesRaw = data.elements
+            .filter(element => element.type === 'relation')
+            .filter(relation => relation.tags && relation.tags.type === "route")
 
         // Iterate through each node and add the tags from all the relations returned in the query
         // We don't check that relations contain the "node" because it's not guaranteed in this case
-        for (const node of nodes) {
-            node.routes_served = routesCleaned
+        for (const node of nodesRaw) {
+            // Iterate through routes, merging them by their "ref" tag
+            const deduplicatedRoutes = Object.values(routesRaw
+                .filter(route => route.tags.to)
+                .reduce((acc, route) => {
+                    if (!acc[route.tags.ref]) {
+                        acc[route.tags.ref] = {
+                            destinations: [
+                                {
+                                    to: route.tags.to,
+                                    from: route.tags.from,
+                                    // Add the "via" tag if it exists on the route
+                                    ...(route.tags.via ? {via: route.tags.via} : {})
+                                }
+                            ],
 
-            // Some nodes have multiple networks separated by semicolons, we need to use / instead
+                            // We're just going to grab a few tags
+                            ref: route.tags.ref,
+                            operator: route.tags.operator,
+                            network: route.tags.network,
+                            colour: route.tags.colour,
+                            wikipedia: route.tags.wikipedia,
+
+                            // And drop the rest raw
+                            tags: route.tags || {},
+                        }
+                    } else {
+                        // Only add destination pair if it doesn't already exist
+                        if (!acc[route.tags.ref].destinations.includes({
+                            to: route.tags.to,
+                            from: route.tags.from,
+                            ...(route.tags.via ? {via: route.tags.via} : {})
+                        })) {
+                            acc[route.tags.ref].destinations.push({
+                                to: route.tags.to,
+                                from: route.tags.from,
+                                ...(route.tags.via ? {via: route.tags.via} : {})
+                            })
+                        }
+                    }
+
+                    return acc
+                }, {}))
+
+            let workingNode = new TransitStation({
+                id: node.id,
+                lat: node.lat,
+                lon: node.lon,
+                operator: node.tags.operator,
+                name: node.tags.name,
+                routes: deduplicatedRoutes || [],
+                tags: node.tags || {},
+            })
+
             if (node.tags.network) {
-                node.tags.network = node.tags.network.split(';').join(' / ')
+                workingNode.network = node.tags.network.split(';')
             }
+
+            nodes.push(workingNode)
         }
-
-        // Drop nodes that don't have an "operator" or "network" tag
-        // This removes bogus nodes that aren't actually part of a transportation network (e.g. Glendale Transportation Center)
-        nodes = nodes.filter(node => node.tags.operator || node.tags.network)
-
     } else {
         nodes = data.elements.filter(element => element.type === 'node')
     }
