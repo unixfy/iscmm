@@ -107,7 +107,7 @@
 </style>
 
 <svelte:head>
-    <title>{(($page.error) ? "Error" : $page.data.title || "Welcome")} | Interactive SoCal Mobility Map</title>
+    <title>{(($page.error) ? `Error ${$page.status}` : $page.data.title || "Welcome")} | Interactive SoCal Mobility Map</title>
 </svelte:head>
 
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
