@@ -11,26 +11,26 @@
     <div class="sign-cluster">
         <div class="sign sign-black flex flex-col space-y-4">
             <div>
-                <p class="text-2xl font-bold break-words">{station[0].tags.name}</p>
+                <p class="text-2xl font-bold break-words">{station.tags.name}</p>
 
-                {#if station[0].tags.network}
-                    <p>{station[0].tags.network}</p>
+                {#if station.tags.network}
+                    <p>{station.tags.network}</p>
                 {/if}
             </div>
 
             <div class="my-auto flex gap-2 flex-wrap">
                 <!--                    Route bullets -->
-                {#each station[0].routes_served as route}
+                {#each station.routes_served as route}
                     <RouteBullet ref={route.ref} background={route.colour}/>
                 {/each}
             </div>
 
-            {#if station[0].tags.operator}
-                <p class="italic text-sm">Station operated by {station[0].tags.operator}</p>
+            {#if station.tags.operator}
+                <p class="italic text-sm">Station operated by {station.tags.operator}</p>
             {/if}
         </div>
 
-        {#each station[0].routes_served as route}
+        {#each station.routes_served as route}
             <div class="sign sign-blue">
                 <p class="text-2xl font-bold">{route.network}: {route.ref} Line</p>
 
