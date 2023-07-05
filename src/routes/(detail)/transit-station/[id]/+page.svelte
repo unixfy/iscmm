@@ -1,6 +1,7 @@
 <script>
     import RouteBullet from "$lib/RouteBullet.svelte";
     import ErrorAlert from "$lib/ErrorAlert.svelte";
+    import "iconify-icon";
 
     export let data;
 </script>
@@ -38,9 +39,12 @@
                     {#each route.destinations as destination}
                         <li>
                             <span class="-ml-2">
-                            {destination.from} ➡ {destination.to}
+                            {destination.from}
+                                <iconify-icon inline icon="mdi:chevron-double-right"></iconify-icon>
+                                {destination.to}
                                 {#if destination.via}
-                                    via {destination.via}
+                                    <span class="text-xs">via</span>
+                                        {destination.via}
                                 {/if}
                             </span>
                         </li>
