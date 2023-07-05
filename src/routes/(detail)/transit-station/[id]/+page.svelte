@@ -63,6 +63,7 @@
     <button class="btn" onclick="json_modal.showModal()">View raw JSON</button>
     <dialog id="json_modal" class="modal">
         <form method="dialog" class="modal-box w-full">
+            <button class="btn btn-sm btn-circle btn-neutral absolute right-4 top-4">✕</button>
             <h3 class="font-bold text-lg">Raw JSON from Overpass API</h3>
             <p class="py-4 font-mono break-all">
                 {JSON.stringify(station)}
