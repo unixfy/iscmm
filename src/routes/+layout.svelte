@@ -25,13 +25,13 @@
 
     let contentPaneExpanded = true;
 
+    // Override Array.prototype.toString to use / instead of ,
+    Array.prototype.toString = function () {
+        return this.join(' / ');
+    };
+
     onMount(async () => {
         if (browser) {
-            // Override Array.prototype.toString to use / instead of ,
-            Array.prototype.toString = function () {
-                return this.join(' / ');
-            };
-
             const leaflet = await import('leaflet');
 
             // Start centered at 7th St/Metro Center in Downtown Los Angeles
