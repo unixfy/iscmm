@@ -56,7 +56,7 @@
                         <Go511ItemCard {go511Item}/>
                     {/each}
                     <p class="text-sm italic">
-                        {go511Items.length} items retrieved. Data is from SoCal 511.
+                        {go511Items.length} items retrieved.
                     </p>
                 </div>
             {:catch error}

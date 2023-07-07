@@ -148,6 +148,16 @@
                     Map).
                 </p>
                 <p class="text-xs">
+                    Map data &copy; <a href="https://www.openstreetmap.org/copyright" rel="noreferrer" target="_blank">OpenStreetMap</a>
+                    contributors.
+                    Freeway shields provided in the public domain by Wikimedia Commons. Metro transit data provided by
+                    <a href="https://goswift.ly" rel="noreferrer" target="_blank">Swiftly</a> and
+                    <a href="https://metro.net" rel="noreferrer" target="_blank">Los Angeles County Metropolitan
+                        Transportation Authority</a>.
+                    Traffic alerts provided by <a href="https://go511.com" rel="noreferrer" target="_blank">SoCal 511 /
+                    Go511</a>.
+                </p>
+                <p class="text-xs">
                     Disclaimer: ISCMM, Unixfy, and Alex Wang are not affiliated with OpenStreetMap, Caltrans, Los
                     Angeles
                     County Metropolitan
