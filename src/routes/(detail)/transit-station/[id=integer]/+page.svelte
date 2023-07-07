@@ -32,10 +32,9 @@
         <Sign color="blue">
             <p class="text-2xl font-bold">{route.network}: {route.ref} Line</p>
 
-            <ul class="list-disc list-inside">
+            <ul>
                 {#each route.destinations as destination}
-                    <li>
-                            <span class="-ml-2">
+                    <li class="font-bold">
                             {destination.from}
                                 <iconify-icon inline icon="mdi:chevron-double-right"></iconify-icon>
                                 {destination.to}
@@ -43,7 +42,6 @@
                                     <span class="text-xs">via</span>
                                     {destination.via}
                                 {/if}
-                            </span>
                     </li>
                 {/each}
             </ul>
