@@ -44,7 +44,7 @@
     {#if data.exit.freeway_number || data.exit.freeway_name}
         <div class="flex gap-2">
             <div>
-                <Sign color="green" hcenter>
+                <Sign color="green" hcenter vcenter>
                     {#if data.exit.freeway_symbol}
                         {#each data.exit.freeway_symbol as symbol}
                             <img src="{symbol}" class="w-16"
@@ -59,7 +59,7 @@
                     {/if}
                 </Sign>
             </div>
-            <div class="w-3/4">
+            <div class="w-full">
                 <Sign color="blue" vcenter>
                     {#if data.exit.freeway_number}
                         <p class="font-bold text-4xl">

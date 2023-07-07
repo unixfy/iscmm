@@ -25,11 +25,11 @@ p > a {
 /*Signs*/
 
 .sign-wrapper {
-    @apply rounded-3xl border-8 border-base-300 bg-base-300 shadow-lg h-full
+    @apply rounded-3xl border-8 border-base-300 bg-base-300 shadow-lg h-full w-full
 }
 
 .sign {
-    @apply rounded-2xl border-[1px] p-6 text-white font-display flex flex-col gap-2 h-full
+    @apply rounded-2xl border-[1px] p-6 text-white font-display flex flex-col gap-2 h-full w-full
 }
 
 .sign-green {
