@@ -53,7 +53,7 @@
             </div>
         {:else}
             <div class="alert shadow-md">
-                <p>This data.station has no regularly scheduled fixed-route transit service.</p>
+                <p>This station has no regularly scheduled fixed-route transit service.</p>
             </div>
 
         {/each}
