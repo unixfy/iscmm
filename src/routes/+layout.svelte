@@ -12,11 +12,10 @@
     import {onMount, onDestroy} from 'svelte';
     import {browser} from '$app/environment';
     import {goto} from "$app/navigation";
-    import ErrorAlert from "$lib/ErrorAlert.svelte";
-    import LoadingAlert from "$lib/LoadingAlert.svelte";
-    import {page} from "$app/stores";
+    import {navigating, page} from "$app/stores";
     import "iconify-icon";
     import {fly} from "svelte/transition";
+    import LoadingPill from "$lib/LoadingPill.svelte";
 
     export let data;
 
@@ -107,7 +106,8 @@
 </style>
 
 <svelte:head>
-    <title>{(($page.error) ? `Error ${$page.status}` : $page.data.title || "Welcome")} | Interactive SoCal Mobility Map</title>
+    <title>{(($page.error) ? `Error ${$page.status}` : $page.data.title || "Welcome")} | Interactive SoCal Mobility
+        Map</title>
 </svelte:head>
 
 <div class="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
@@ -121,13 +121,6 @@
                     It looks like you have JavaScript disabled. This site will NOT work without JavaScript enabled!
                 </div>
             </noscript>
-
-            <!--        Show loading if loading -->
-            {#await Promise.all([data.streamed.exits, data.streamed.stations])}
-                <LoadingAlert/>
-            {:catch error}
-                <ErrorAlert {error}/>
-            {/await}
 
             <!--    Slot -->
             <div>
@@ -167,6 +160,7 @@
             </div>
         </div>
     {:else}
+
         <!--Content pane hidden message-->
         <div class="p-4 rounded-xl bg-base-100 absolute ml-4 z-10 mt-4 w-64 shadow-2xl"
              transition:fly={{x: -1000, opacity:1}}>
@@ -183,6 +177,17 @@
             </button>
         </div>
     {/if}
+
+    <!--Shows the loading pill while navigation is running (i.e., while load functions are running)-->
+    {#if $navigating}
+        <LoadingPill/>
+    {/if}
+
+    <!--Also show loading pill when waiting for the map data-->
+    {#await Promise.all([data.streamed.exits, data.streamed.stations])}
+        <LoadingPill/>
+    {/await}
+
     <!--    Map -->
     <div bind:this={mapElement} class="h-screen w-full z-0"></div>
 </div>
