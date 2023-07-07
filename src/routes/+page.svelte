@@ -2,11 +2,12 @@
     import Go511ItemCard from "$lib/Go511ItemCard.svelte";
     import LoadingAlert from "$lib/LoadingAlert.svelte";
     import 'iconify-icon';
+    import Sign from "$lib/Sign.svelte";
 
     export let data;
 </script>
 
-<div class="sign sign-green">
+<Sign color="green">
     <div>
         <h1 class="flex font-extrabold">
             ISCMM
@@ -14,12 +15,12 @@
         </h1>
         <p class="uppercase text-md">Interactive SoCal Mobility Map</p>
     </div>
-</div>
+</Sign>
 
 <hr class="my-4">
 
 <div class="flex-col space-y-4">
-    <p class="font-bold text-green-800">
+    <p class="font-bold text-mutcd-green">
         This is a website that helps you learn about mobility options in Southern California.
         Browse the map to find points of transportation interest across Southern California.
     </p>

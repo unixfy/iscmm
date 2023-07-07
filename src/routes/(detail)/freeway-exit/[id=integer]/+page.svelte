@@ -1,73 +1,72 @@
 <script>
     import 'iconify-icon';
+    import Sign from "$lib/Sign.svelte";
 
     export let data;
 </script>
 
 <div class="sign-cluster">
-    <div class="sign sign-green">
-        <div class="flex flex-col space-y-2">
-            <p class="ml-auto border rounded-lg px-2 py-1 mb-4">
-                <span class="uppercase">Exit</span>
-                <span class="text-2xl font-bold">{data.exit.ref}</span>
-            </p>
+    <Sign color="green">
+        <p class="ml-auto border border-2 rounded-xl px-2 py-1 mb-4">
+            <span class="uppercase">Exit</span>
+            <span class="text-2xl font-bold">{data.exit.ref}</span>
+        </p>
 
-            <div class="font-bold text-3xl flex justify-between">
-                <div>
-                    <p>
-                        {#if data.exit.destination}
-                            {data.exit.destination}
-                        {:else}
-                            Unnamed Exit
-                        {/if}
-                    </p>
-
-                    {#if data.exit.destination_ref}
-                        <p class="text-sm">
-                            {#if data.exit.destination_symbol}
-                                {#each data.exit.destination_symbol as symbol}
-                                    <img src="{symbol}"
-                                         class="inline max-h-12 mr-2"
-                                         alt='Symbol for {data.exit.destination_ref}'/>
-                                {/each}
-                            {/if}
-                            {data.exit.destination_ref}
-                        </p>
+        <div class="font-bold text-3xl flex justify-between">
+            <div>
+                <p>
+                    {#if data.exit.destination}
+                        {data.exit.destination}
+                    {:else}
+                        Unnamed Exit
                     {/if}
-                </div>
+                </p>
 
-                <iconify-icon width="1.5em" icon="icomoon-free:arrow-up-right"></iconify-icon>
+                {#if data.exit.destination_ref}
+                    <p class="text-sm">
+                        {#if data.exit.destination_symbol}
+                            {#each data.exit.destination_symbol as symbol}
+                                <img src="{symbol}"
+                                     class="inline max-h-12 mr-2"
+                                     alt='Symbol for {data.exit.destination_ref}'/>
+                            {/each}
+                        {/if}
+                        {data.exit.destination_ref}
+                    </p>
+                {/if}
             </div>
+
+            <iconify-icon width="1.5em" icon="icomoon-free:arrow-up-right"></iconify-icon>
         </div>
-    </div>
+    </Sign>
 
     <!--        Show freeway number and/or name if available -->
     {#if data.exit.freeway_number || data.exit.freeway_name}
-
-        <div class="sign sign-blue">
-            <div class="flex space-x-5">
-                {#if data.exit.freeway_symbol}
-                    {#each data.exit.freeway_symbol as symbol}
-                        <div class="w-1/4 my-auto"><img src="{symbol}" class="inline max-h-36"
-                                                        alt="Symbol for {data.exit.freeway_number}"/></div>
-                    {/each}
-                {/if}
-
-                <div class="flex flex-col m-auto">
+        <div class="flex gap-2">
+            <div>
+                <Sign color="green" hcenter>
+                    {#if data.exit.freeway_symbol}
+                        {#each data.exit.freeway_symbol as symbol}
+                            <img src="{symbol}" class="w-16"
+                                 alt="Symbol for {data.exit.freeway_number}"/>
+                        {/each}
+                        <span class="text-2xl uppercase font-bold">
+                                    {data.exit.freeway_direction}
+                                    </span>
+                    {/if}
+                </Sign>
+            </div>
+            <div class="w-3/4">
+                <Sign color="blue" vcenter>
                     {#if data.exit.freeway_number}
                         <p class="font-bold text-4xl">
                             {data.exit.freeway_number}
-                            {#if data.exit.freeway_direction}
-                                    <span class="text-2xl uppercase">
-                                    {data.exit.freeway_direction}
-                                    </span>
-                            {/if}
                         </p>
                     {/if}
                     {#if data.exit.freeway_name}
                         <p class="text-xl">{data.exit.freeway_name}</p>
                     {/if}
-                </div>
+                </Sign>
             </div>
         </div>
     {/if}

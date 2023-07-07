@@ -22,20 +22,30 @@ p > a {
     @apply text-blue-500 hover:text-blue-700
 }
 
+/*Signs*/
+
+.sign-wrapper {
+    @apply rounded-3xl border-8 border-base-300 bg-base-300 shadow-lg h-full
+}
+
 .sign {
-    @apply rounded-xl border-black border-8 p-4 text-white font-display
+    @apply rounded-2xl border-[1px] p-6 text-white font-display flex flex-col gap-2 h-full
 }
 
 .sign-green {
-    @apply bg-green-800
+    @apply bg-mutcd-green border-mutcd-green
 }
 
 .sign-blue {
-    @apply bg-blue-800
+    @apply bg-mutcd-blue border-mutcd-blue
+}
+
+.sign-orange {
+    @apply bg-mutcd-orange border-mutcd-orange text-black
 }
 
 .sign-black {
-    @apply bg-black
+    @apply bg-mutcd-black border-mutcd-black
 }
 
 .sign-cluster {
