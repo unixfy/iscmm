@@ -174,7 +174,7 @@
         <!--Content pane hidden message-->
         <div class="p-4 rounded-xl bg-base-100 absolute ml-4 z-10 mt-4 w-64 shadow-2xl"
              transition:fly={{x: -1000, opacity:1}}>
-            <p class="text-2xl font-display font-extrabold text-green-800">
+            <p class="text-2xl font-display font-extrabold text-mutcd-green">
                 ISCMM
             </p>
             <p>
