@@ -50,9 +50,12 @@
                             <img src="{symbol}" class="w-16"
                                  alt="Symbol for {data.exit.freeway_number}"/>
                         {/each}
-                        <span class="text-2xl uppercase font-bold">
+                        {#if data.exit.freeway_direction}
+                                                    <span class="text-2xl uppercase font-bold">
                                     {data.exit.freeway_direction}
                                     </span>
+                        {/if}
+
                     {/if}
                 </Sign>
             </div>
