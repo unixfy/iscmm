@@ -25,7 +25,7 @@ p > a {
 /*Signs*/
 
 .sign-wrapper {
-    @apply rounded-3xl border-8 border-base-300 bg-base-300 shadow-lg h-full w-full
+    @apply rounded-3xl border-8 border-base-300 bg-base-300 shadow-lg
 }
 
 .sign {

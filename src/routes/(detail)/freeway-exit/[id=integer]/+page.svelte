@@ -7,7 +7,7 @@
 
 <div class="sign-cluster">
     <Sign color="green">
-        <p class="ml-auto border border-2 rounded-xl px-2 py-1 mb-4">
+        <p class="ml-auto border-2 rounded-xl px-2 py-1 mb-4">
             <span class="uppercase">Exit</span>
             <span class="text-2xl font-bold">{data.exit.ref}</span>
         </p>
@@ -43,34 +43,30 @@
     <!--        Show freeway number and/or name if available -->
     {#if data.exit.freeway_number || data.exit.freeway_name}
         <div class="flex gap-2">
-            <div>
-                <Sign color="green" hcenter vcenter>
-                    {#if data.exit.freeway_symbol}
-                        {#each data.exit.freeway_symbol as symbol}
-                            <img src="{symbol}" class="w-16"
-                                 alt="Symbol for {data.exit.freeway_number}"/>
-                        {/each}
-                        {#if data.exit.freeway_direction}
+            <Sign color="green" hcenter vcenter>
+                {#if data.exit.freeway_symbol}
+                    {#each data.exit.freeway_symbol as symbol}
+                        <img src="{symbol}" class="w-16"
+                             alt="Symbol for {data.exit.freeway_number}"/>
+                    {/each}
+                    {#if data.exit.freeway_direction}
                                                     <span class="text-2xl uppercase font-bold">
                                     {data.exit.freeway_direction}
                                     </span>
-                        {/if}
+                    {/if}
 
-                    {/if}
-                </Sign>
-            </div>
-            <div class="w-full">
-                <Sign color="blue" vcenter>
-                    {#if data.exit.freeway_number}
-                        <p class="font-bold text-4xl">
-                            {data.exit.freeway_number}
-                        </p>
-                    {/if}
-                    {#if data.exit.freeway_name}
-                        <p class="text-xl">{data.exit.freeway_name}</p>
-                    {/if}
-                </Sign>
-            </div>
+                {/if}
+            </Sign>
+            <Sign color="blue" vcenter expand>
+                {#if data.exit.freeway_number}
+                    <p class="font-bold text-4xl">
+                        {data.exit.freeway_number}
+                    </p>
+                {/if}
+                {#if data.exit.freeway_name}
+                    <p class="text-xl">{data.exit.freeway_name}</p>
+                {/if}
+            </Sign>
         </div>
     {/if}
 </div>
