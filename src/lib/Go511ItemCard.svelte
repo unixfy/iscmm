@@ -12,11 +12,14 @@
                 {#if go511Item.type === "Alert"}
                     <iconify-icon class="text-warning text-3xl" inline icon="carbon:warning-filled"></iconify-icon>
                 {:else if go511Item.type === "Incident"}
-                    <iconify-icon class="text-warning text-3xl" inline icon="carbon:traffic-flow-incident"></iconify-icon>
+                    <iconify-icon class="text-warning text-3xl" inline
+                                  icon="carbon:traffic-flow-incident"></iconify-icon>
                 {:else if go511Item.type === "Road Work"}
                     <iconify-icon class="text-info text-3xl" inline icon="carbon:construction"></iconify-icon>
                 {:else if go511Item.type === "Closure"}
                     <iconify-icon class="text-error text-3xl" inline icon="carbon:close-filled"></iconify-icon>
+                {:else if go511Item.type === "Road Condition"}
+                    <iconify-icon class="text-warning text-3xl" inline icon="carbon:car-front"></iconify-icon>
                 {/if}
             </div>
             <div>
@@ -50,7 +53,7 @@
 
         <div>
             <!--    Badges -->
-            {#if go511Item.type === "Alert" || go511Item.type === "Incident"}
+            {#if go511Item.type === "Alert" || go511Item.type === "Incident" || go511Item.type === "Road Condition"}
                 <div class="badge badge-warning">
                     {go511Item.type}</div>
             {:else if go511Item.type === "Road Work"}
