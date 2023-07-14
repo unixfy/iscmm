@@ -5,6 +5,9 @@ export default async function (fetch) {
     const alerts = await fetch("https://commonwebsite.go511.com/api/Alert/GetAll")
     let alertsData = await alerts.json()
 
+    const incidents = await fetch("https://commonwebsite.go511.com/api/Incident/GetAll")
+    let incidentsData = await incidents.json()
+
     // We have to process the alerts data to remove items where the "endDate" key is in the past OR the "startDate" key is in the future
     alertsData = alertsData.filter(alert => {
         const now = new Date()
@@ -41,8 +44,6 @@ export default async function (fetch) {
         return returnObj
     })
 
-    const incidents = await fetch("https://commonwebsite.go511.com/api/Incident/GetAll")
-    let incidentsData = await incidents.json()
 
     // Format incidents data
     incidentsData = incidentsData.map(incident => {
@@ -119,8 +120,10 @@ export default async function (fetch) {
             emergency: false,
             description: roadcondition.Description,
             direction: roadcondition.DirectionOfTravel,
-            start: format(parseISO(roadcondition.StartDate), "Pp"),
-            startDistanceToNow: formatDistanceToNow(parseISO(roadcondition.StartDate)),
+            // road condition dates are reported in an extremely unfriendly way
+            // example: 7/13/23 8:59am
+            start: format(parse(roadcondition.Reported, "M/d/yy h:mma", new Date()), "Pp"),
+            startDistanceToNow: formatDistanceToNow(parse(roadcondition.Reported, "M/d/yy h:mma", new Date())),
             freeway: roadcondition.RoadwayName,
             location: roadcondition.Location.replace(/`/g, ""),
             lanes: roadcondition.LanesAffected.toUpperCase() !== "NOT AVAILABLE" ? roadcondition.LanesAffected : ""
