@@ -2,11 +2,12 @@ import {format, parseISO, parse, formatDistanceToNow} from "date-fns";
 
 export default async function (fetch) {
     // Grab all the data from the Go511 API
-    const alerts = await fetch("https://commonwebsite.go511.com/api/Alert/GetAll")
-    let alertsData = await alerts.json()
-
-    const incidents = await fetch("https://commonwebsite.go511.com/api/Incident/GetAll")
-    let incidentsData = await incidents.json()
+    let [alertsData, incidentsData, roadworkData, roadconditionData] = await Promise.all([
+        await fetch("https://commonwebsite.go511.com/api/Alert/GetAll").then(response => response.json()),
+        await fetch("https://commonwebsite.go511.com/api/Incident/GetAll").then(response => response.json()),
+        await fetch("https://commonwebsite.go511.com/api/RoadWork/GetAll").then(response => response.json()),
+        await fetch("https://commonwebsite.go511.com/api/RoadCondition/GetAll").then(response => response.json())
+    ])
 
     // We have to process the alerts data to remove items where the "endDate" key is in the past OR the "startDate" key is in the future
     alertsData = alertsData.filter(alert => {
@@ -68,9 +69,6 @@ export default async function (fetch) {
         return returnObj
     })
 
-    const roadwork = await fetch("https://commonwebsite.go511.com/api/RoadWork/GetAll")
-    let roadworkData = await roadwork.json()
-
     // Filter road work data to remove items where the "endDate" key is in the past OR the "startDate" key is in the future
     roadworkData = roadworkData.filter(roadwork => {
         const now = new Date()
@@ -107,9 +105,6 @@ export default async function (fetch) {
 
         return returnObj
     })
-
-    const roadcondition = await fetch("https://commonwebsite.go511.com/api/RoadCondition/GetAll")
-    let roadconditionData = await roadcondition.json()
 
     // Format Road Condition data
     roadconditionData = roadconditionData.map(roadcondition => {
