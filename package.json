@@ -13,7 +13,7 @@
 	},
 	"devDependencies": {
 		"@fontsource/ibm-plex-sans": "^5.0.12",
-		"@fontsource/overpass": "^5.0.8",
+		"@fontsource/overpass": "^5.0.12",
 		"@sveltejs/adapter-netlify": "^2.0.8",
 		"@sveltejs/kit": "^1.24.1",
 		"autoprefixer": "^10.4.15",
