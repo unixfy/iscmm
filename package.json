@@ -12,14 +12,14 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@fontsource/ibm-plex-sans": "^5.0.16",
-		"@fontsource/overpass": "^5.0.14",
+		"@fontsource/ibm-plex-sans": "^5.0.17",
+		"@fontsource/overpass": "^5.0.15",
 		"@sveltejs/adapter-netlify": "^2.0.8",
-		"@sveltejs/kit": "^1.26.0",
+		"@sveltejs/kit": "^1.27.0",
 		"autoprefixer": "^10.4.16",
 		"daisyui": "^3.9.3",
 		"date-fns": "^2.30.0",
-		"eslint": "^8.51.0",
+		"eslint": "^8.52.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.34.0",
 		"iconify-icon": "^1.0.8",
