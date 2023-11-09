@@ -15,7 +15,7 @@
 		"@fontsource/ibm-plex-sans": "^5.0.17",
 		"@fontsource/overpass": "^5.0.15",
 		"@sveltejs/adapter-netlify": "^2.0.8",
-		"@sveltejs/kit": "^1.27.3",
+		"@sveltejs/kit": "^1.27.4",
 		"autoprefixer": "^10.4.16",
 		"daisyui": "^3.9.4",
 		"date-fns": "^2.30.0",
